@@ -209,7 +209,7 @@ $(etks)=energy+energy.regen*(variable.time_to_scheduled_ks+execute_time)
 # blackout kick, rising sun kick, keg smash, breath of fire, exploding keg, rushing jade wind, black ox brew, spinning crane kick, celestial brew, chi wave, chi burst
 
 # missing considerations:
-# fort brew, expel harm, FoM BoC ChP Salsal (bok ks x bok bof x bok ks/? x)
+# fort brew, expel harm
 
 # Name: Blackout Combo Salsalabim's Strength Charred Passions [Shadowboxing Treads or high haste Fluidity of Motion]
 # basic sequence: bok bof x x bok ks x x
