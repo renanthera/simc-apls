@@ -4,13 +4,11 @@
 # SIM PARAMETERS #
 ##################
 
-$(name)=brm_niuzao_clean
+$(name)=brm
 threads=32
 iterations=100000
 target_error=0.1
 desired_targets=1
-#bugs=1
-#log=1
 ptr=1
 
 max_time=300
@@ -30,7 +28,7 @@ spec=brewmaster
 #############################
 
 race=vulpera
-talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1iAAAAkGpkEJSIhkkkkSSAlEJplGA
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkW7ACAAAQakSSkIhESSSSKJB0CRapVC
 
 # verified pots, appears to be by far the best
 potion=elemental_potion_of_ultimate_power_3
@@ -87,9 +85,6 @@ actions.precombat+=/variable,name=offset,op=set,value=-0.1
 # base salsalchp
 actions.precombat+=/variable,name=chp_threshold,op=set,value=6
 
-# fom boc
-# no support for fom -boc, as optimal play for fom -boc is very very close to sbt -boc
-
 #################
 # BEGIN ACTIONS #
 #################
@@ -102,7 +97,7 @@ actions+=/touch_of_death
 actions+=/bonedust_brew,if=!buff.bonedust_brew.up&talent.bonedust_brew.enabled
 
 # Trinkets
-# not aware of any trinkets we will likely desire that require special handling
+# not aware of any trinkets we will desire that require special handling
 actions+=/use_item,slot=trinket1
 actions+=/use_item,slot=trinket2
 
@@ -234,7 +229,6 @@ actions.rotation_blackout_combo+=/celestial_brew,if=talent.celestial_brew.enable
 actions.rotation_blackout_combo+=/chi_wave,if=talent.chi_wave.enabled
 actions.rotation_blackout_combo+=/chi_burst,if=talent.chi_burst.enabled
 
-
 # Name: Blackout Combo Salsalabim's Strength Chared Passions Fluidity of Motion Not High Haste
 # basic sequence: bok bof x bok (ks/x) x bok ks x
 actions.rotation_fom_boc+=/variable,name=boc_count,op=add,value=1,if=prev.blackout_kick
@@ -285,96 +279,3 @@ actions.rotation_fallback+=/chi_burst,if=talent.chi_burst.enabled
 
 enemy=PunchyKicky
 actions=auto_attack,damage=140000,range=100,attack_speed=1.50
-#enemy_health=1000000
-#enemy_fixed_health_percentage=10
-
-#######################
-# TALENTS FOR TESTING #
-#######################
-
-# talent substitutions
-# -sd rjw
-$(-sd+rjw)=class_talents=101549:1/101548:0
-
-# -bnw bob
-$(-bnw+bob)=class_talents=101450:1/101449:0
-
-# -lb ton
-$(-lb+ton)=class_talents=101447:1/101448:0
-
-# talent strings
-# 1 kate chp salsal woo bdb ek sd
-$(1)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkW7ACAAAQakSSkIhESSSSKJB0CRapVC
-
-# 2 kate chp salsal cta ek r2 niuzao sd
-$(2)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1iAAAAkGpkEJSIhkkkkSSAlEJplGA
-
-# 3 (BASELINE) kate chp salsal bdb cta ek r2 niuzao sd
-$(3)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1IAAAApRKJRiESIJJJpkEQJRSapVCS
-
-# 4 pao chp salsal bdb boc sd
-$(4)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAJFKtkkASSatIAAAApRKJRiESIJJJpkEACplWJA
-
-# 5
-# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAJNKtkkASSatIAAAApRKJRiESIJJJpkEACplWJAC
-
-# icy veins
-$(i1)=talents=BwQAdeydY63Y4XKaboK13uRRQAAAAAAAQAAAAAFKlkkQIJp1IAAAApEpkExBSkESSSAAQkWKSA
-$(i2)=talents=BwQAdeydY63Y4XKaboK13uRRQAAAAAAAQAAAAAFKtkkQIJp1IAAAApQKJRiESIJJBHIAQkWKSA
-$(i3)=talents=BwQAdeydY63Y4XKaboK13uRRQAAAAAAAAAAAAQhSLJJESSatDIAAAApIpkExBSkEkkEAAhkWKE
-
-# wowhead
-$(w1)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAFKtkkQIJp1IAAAApEKJRiEJhkkEIgDgEplGA
-$(w2)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQhSLJJESSaNCAAAQahSSkIRSIJJBC4AESapIA
-$(w3)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAFKtkkQIJp1IAAAApFKJRiEJhkkEIgDIEplCA
-$(w4)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAFKtkkQIJp1IAAAApFKJRikEhkkEIBgEplCA
-
-# profileset.$(name)i1+=$(i1)
-# profileset.$(name)i2+=$(i2)
-# profileset.$(name)i3+=$(i3)
-
-# profileset.$(name)w1+=$(w1)
-# profileset.$(name)w2+=$(w2)
-# profileset.$(name)w3+=$(w3)
-# profileset.$(name)w4+=$(w4)
-
-
-# kateborf1base is best. current default.
-
-# profileset.kateborf1base+=$(1)
-# profileset.kateborf1a+=$(1)
-# profileset.kateborf1a+=$(-sd+rjw)
-# profileset.kateborf1b+=$(1)
-# profileset.kateborf1b+=$(-bnw+bob)
-# profileset.kateborf1c+=$(1)
-# profileset.kateborf1c+=$(-lb+ton)
-
-# profileset.kateborf2base+=$(2)
-# profileset.kateborf2a+=$(2)
-# profileset.kateborf2a+=$(-sd+rjw)
-# profileset.kateborf2b+=$(2)
-# profileset.kateborf2b+=$(-bnw+bob)
-# profileset.kateborf2c+=$(2)
-# profileset.kateborf2c+=$(-lb+ton)
-
-# profileset.kateborf3base+=$(3)
-# profileset.kateborf3a+=$(3)
-# profileset.kateborf3a+=$(-sd+rjw)
-# profileset.kateborf3b+=$(3)
-# profileset.kateborf3b+=$(-bnw+bob)
-# profileset.kateborf3c+=$(3)
-# profileset.kateborf3c+=$(-lb+ton)
-
-# profileset.kateborf4base+=$(4)
-# profileset.kateborf4a+=$(4)
-# profileset.kateborf4a+=$(-sd+rjw)
-# profileset.kateborf4b+=$(4)
-# profileset.kateborf4b+=$(-bnw+bob)
-# profileset.kateborf4c+=$(4)
-# profileset.kateborf4c+=$(-lb+ton)
-
-# TARGET COUNTS
-
-#profileset.kateborf1+=desired_targets=4
-#profileset.kateborf10+=desired_targets=10
-#profileset.kateborf20+=desired_targets=20
