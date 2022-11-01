@@ -1,0 +1,112 @@
+#!./build/simc
+html=chpsalsalbrm.html
+#output=log.txt
+#log=1
+threads=32
+iterations=100000
+target_error=0.05
+#single_actor_batch=1
+#vary_combat_length=0
+#desired_targets=4
+#bugs=1
+
+monk="Kateborf"
+level=70
+race=dwarf
+region=us
+server=valdrakken
+role=tank
+professions=blacksmithing=100/leatherworking=100
+spec=brewmaster
+#position=front
+
+# sd
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkWjAAAAkGpkEJSIhkkkkSSAtIRapVC
+# rjw
+#talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkWjAAAAkGpkEJSIhkkkkSSAtIRapUC
+# sslk
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkWjAAAAkGpkEJSIhkkkkSSAtIRapVC
+
+head=,id=193400,bonus_id=8836/8840/8902/8802/8795,crafted_stats=32/40
+neck=,id=201759,gem_id=192925/192925/192925,bonus_id=8836/8840/8902/8783/8782/8802/8795,crafted_stats=36/49
+shoulder=,id=200365,bonus_id=1463/8767
+back=,id=153865,enchant_id=6604,bonus_id=8942/3219
+chest=,id=200360,enchant_id=6616,bonus_id=1466/8767
+wrist=,id=193419,enchant_id=6586,bonus_id=8836/8840/8902/8802/8795,crafted_stats=40/49
+hands=,id=200362,bonus_id=1466/8767
+waist=,id=193407,bonus_id=8836/8840/8902/8802/8797/8960/8795,crafted_stats=32/40
+legs=,id=200364,enchant_id=6496,bonus_id=1472/8767
+feet=,id=193452,enchant_id=6607,bonus_id=8836/8840/8902/8960/8802
+finger1=,id=193000,enchant_id=6550,gem_id=192925,bonus_id=8836/8840/8902/8780/8802/8795,crafted_stats=36/40
+finger2=,id=192999,enchant_id=6550,gem_id=192925,bonus_id=8836/8840/8902/8780/8802/8795,crafted_stats=40/49
+trinket1=,id=193003,bonus_id=8836/8840/8902/8802
+trinket2=,id=193757,bonus_id=8967/7977/6652/1617/8767
+main_hand=,id=190513,enchant_id=6649,bonus_id=8836/8840/8902/8802/8795,crafted_stats=49/40
+off_hand=,id=190513,enchant_id=6648,bonus_id=8836/8840/8902/8802/8795,crafted_stats=49/32
+
+actions.precombat+=/snapshot_stats
+
+# magic number configuration
+# creates the sequence:
+# ks bof x x x x x
+actions.precombat+=/variable,name=chp_threshold,op=set,value=6
+
+actions=auto_attack
+
+#actions+=/summon_white_tiger_statue
+
+# Cast Niuzao when we'll get at least 20 seconds of uptime. This is specific to the default enemy APL and will need adjustments for other enemies.
+actions+=/invoke_niuzao_the_black_ox,if=buff.recent_purifies.value>=health.max*0.05&(target.cooldown.pause_action.remains>=20|time<=10|target.cooldown.pause_action.duration=0)&(!talent.call_to_arms|cooldown.weapons_of_order.remains>25)&!buff.invoke_niuzao_the_black_ox.up
+# Cast Niuzao if we just lost the Niuzao from CtA
+actions+=/invoke_niuzao_the_black_ox,if=buff.weapons_of_order.up&talent.call_to_arms&!buff.invoke_niuzao_the_black_ox.up
+actions+=/touch_of_death,if=target.health.pct<=15
+# Use WoO on CD unless we have CtA equipped, in which case we treat it as mini-Niuzao not WoO.
+actions+=/weapons_of_order,if=!talent.call_to_arms|(buff.recent_purifies.value>=health.max*0.05&(target.cooldown.pause_action.remains>=20|time<=10|target.cooldown.pause_action.duration=0)&!buff.invoke_niuzao_the_black_ox.up)
+actions+=/bonedust_brew,if=!debuff.bonedust_brew_debuff.up
+# Cast PB during the Niuzao window, but only if recently hit.
+actions+=/purifying_brew,if=stagger.amounttototalpct>=0.7&(((target.cooldown.pause_action.remains>=20|time<=10|target.cooldown.pause_action.duration=0)&cooldown.invoke_niuzao_the_black_ox.remains<5)|buff.invoke_niuzao_the_black_ox.up)
+# Dump PB charges towards the end of Niuzao: anything is better than nothing.
+actions+=/purifying_brew,if=buff.invoke_niuzao_the_black_ox.up&buff.invoke_niuzao_the_black_ox.remains<8
+# Avoid capping charges, but pool charges shortly before Niuzao comes up and allow dumping to avoid capping during Niuzao.
+actions+=/purifying_brew,if=cooldown.purifying_brew.charges_fractional>=1.8&(cooldown.invoke_niuzao_the_black_ox.remains>10|buff.invoke_niuzao_the_black_ox.up)
+
+# sal'salabims + charred passions. structured around bof cd
+# 2 gcds before charred passions buff falls off
+actions+=/keg_smash,if=buff.charred_passions.remains<=variable.chp_threshold
+actions+=/purifying_brew
+actions+=/breath_of_fire
+actions+=/blackout_kick
+actions+=/rising_sun_kick
+# at least 2 gcds until next ks
+actions+=/exploding_keg,if=cooldown.breath_of_fire.remains>=12
+actions+=/rushing_jade_wind,if=buff.rushing_jade_wind.down
+actions+=/spinning_crane_kick,if=(energy+(energy.regen*(buff.charred_passions.remains+execute_time-variable.chp_threshold)))>=65
+actions+=/chi_wave
+
+enemy=PunchyKicky
+actions=auto_attack,damage=140000,range=100,attack_speed=1.50
+
+##enemy=FluffiestPillow
+##raid_events=damage,amount=140000,cooldown=1.50,type=physical
+
+#copy=kateborf0,Kateborf
+#spec_talents=101412:0
+
+#copy=kateborf1,Kateborf
+#spec_talents=101541:0
+
+#copy=kateborf2,Kateborf
+#spec_talents=101467:0/101468:1
+
+#profileset.kateborf0=spec_talents=101412:0
+#profileset.kateborf1=spec_talents=101541:0
+#profileset.kateborf2=spec_talents=101467:0/101468:1
+#profileset.kateborf1=actions.precombat+=/variable,name=bof_threshold,op=set,value=5
+#profileset.kateborf2=actions.precombat+=/variable,name=bof_threshold,op=set,value=5.5
+#profileset.kateborf3=actions.precombat+=/variable,name=bof_threshold,op=set,value=6.5
+#profileset.kateborf4=actions.precombat+=/variable,name=bof_threshold,op=set,value=7
+#profileset.kateborf5=actions.precombat+=/variable,name=bof_threshold,op=set,value=7.5
+#profileset.kateborf6=actions.precombat+=/variable,name=bof_threshold,op=set,value=9.2
+#profileset.kateborf7=actions.precombat+=/variable,name=bof_threshold,op=set,value=9.3
+#profileset.kateborf8=actions.precombat+=/variable,name=bof_threshold,op=set,value=9.4
+#profileset.kateborf9=actions.precombat+=/variable,name=bof_threshold,op=set,value=9.5
