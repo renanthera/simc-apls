@@ -4,6 +4,7 @@
 # SIM PARAMETERS #
 ##################
 
+# $(name)=brm
 threads=32
 iterations=100000
 target_error=0.1
@@ -27,7 +28,7 @@ spec=brewmaster
 #############################
 
 race=vulpera
-talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1IAAAApRKJRiESIJJJpkEQJRSapVCS
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkW7ACAAAQakSSkIhESSSSKJB0CRapVC
 
 # verified pots, appears to be by far the best
 potion=elemental_potion_of_ultimate_power_3
@@ -130,20 +131,31 @@ actions.cooldowns_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.remains
 # magic numbers being used in Improved Niuzao + [Weapons of Order / Call to Arms]
 # important tweakables
 # if pre purify > cd cast, decrease this value
+# $(pre_pb_wiggle)=3.5
 # increase this until window PBs go down
+# $(excess_pb_multiplier)=2
 # if ogcd burnt pbs > 0, decrease this value
+# $(brew_cdr)=0.65
 
 # less important tweakables
 # x\in[0,0.2]
 # probably don't touch this
+# $(stomp_wiggle_per_stomp)=0.05
 
 # x\in[10,20]
 # increase this until last stomp of invoke niuzao is out of WoO
+# $(niuzao_delay)=30-17
 
 # macros for my sanity
+# $(total_time_for_cta_stomps)=10+2*$(stomp_wiggle_per_stomp)
+# $(total_time_for_niu_stomps)=20+4*$(stomp_wiggle_per_stomp)
 
 # cta_window, niu_window
+# $(cta_window)=time-action.weapons_of_order.last_used<=$(total_time_for_cta_stomps)
+# $(niu_window)=time-action.invoke_niuzao_the_black_ox.last_used<=$(total_time_for_niu_stomps)
 
+# $(cta_window_remains)=$(total_time_for_cta_stomps)-time+action.weapons_of_order.last_used
+# $(niu_window_remains)=$(total_time_for_niu_stomps)-time+action.invoke_niuzao_the_black_ox.last_used
 
 #########
 
@@ -154,7 +166,7 @@ actions.cooldowns_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.remains
 # dump excess pbs at end of niuzao window if available (excess at end of CtA will be consumed by niuzao, as they tend to be pretty well synced with wwto)
 # pre-purify if WoO is up in 4 or fewer seconds, and the last purification was longer ago than half a gcd after next woo is expected to be usable (a lil latency fudge factor)
 # WoO if pre-purify buff exists
-# pre-purify if last CtA stomp has occurred, and niuzao will be cast in <= 3.5
+# pre-purify if last CtA stomp has occurred, and niuzao will be cast in <= $(pre_pb_wiggle)
 # niuzao if enough time has passed, and most recent stomp is older than most recent purification (indirectly via woo last used + small error. pet last used isn't a thing?)
 # consume excess pbs
 
@@ -189,6 +201,9 @@ actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=cooldown.purifying_bre
 # several fragments are placed here either due to repeated usage, or similarity to another string that should remain (nearly) identical
 
 # Blackout Combo
+# $(ttsks3)=cooldown.blackout_kick.duration_expected*(1-(variable.boc_count)%%3)+cooldown.blackout_kick.remains+1
+# $(ttsks2)=cooldown.blackout_kick.duration_expected*(1-(variable.boc_count)%%2)+cooldown.blackout_kick.remains+1
+# $(etks)=energy+energy.regen*(variable.time_to_scheduled_ks+execute_time)
 
 # included abilities:
 # blackout kick, rising sun kick, keg smash, breath of fire, exploding keg, rushing jade wind, black ox brew, spinning crane kick, celestial brew, chi wave, chi burst

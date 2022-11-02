@@ -1,8 +1,16 @@
 import re
 
-inputfilename = 'brm.simc'
+#########
+# USAGE #
+#########
 
-outputfilename = 'brm_r.simc'
+# configure inputfilename
+# run script
+# redirect stdout to target file
+# ???
+# profit
+
+inputfilename = 'brm.simc'
 
 with open(inputfilename, 'r') as inputfile:
     i = inputfile.readlines()
@@ -40,20 +48,22 @@ while (t != 0):
 #     print(k, templates[k])
 
 arr = []
-for k in i:
-    if (k[0] == '$'):
+for k in range(len(i)-1):
+    if (i[k][0] == '$'):
         arr.append(k)
 for k in arr:
-    i.remove(k)
+    i[k] = '# '+i[k]
 
 # print()
 
-
 for k in range(len(i)-1):
+    if (i[k][0] == '#'):
+        continue
+    # print(i[k],end='')
     for l in templates:
         s = re.sub('('+l+')', templates[l], i[k])
         if (s != i[k]):
             i[k] = s
 
 for k in i:
-    print(k, end='')
+   print(k, end='')
