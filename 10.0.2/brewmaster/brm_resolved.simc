@@ -10,6 +10,7 @@ iterations=100000
 target_error=0.1
 desired_targets=1
 ptr=1
+# debug=1
 
 max_time=300
 
@@ -37,8 +38,7 @@ flask=phial_of_glacial_fury_3
 # grand banquet of the kaluak is not working. likely preferable to filet of fangs
 food=filet_of_fangs
 augmentation=draconic
-# not rank 3. all three ranks are in data, but with the same name
-temporary_enchant=main_hand:buzzing_rune/off_hand:buzzing_rune
+temporary_enchant=main_hand:buzzing_rune_3/off_hand:buzzing_rune_3
 
 # missing gems
 head=,id=195492,bonus_id=3524,ilevel=421
@@ -74,16 +74,8 @@ actions.precombat+=/chi_wave
 # PRE-COMBAT VARIABLE CONFIGURATION #
 #####################################
 
-# cooldowns
-actions.precombat+=/variable,name=niuzao_score,op=set,value=talent.invoke_niuzao_the_black_ox.enabled+talent.improved_invoke_niuzao_the_black_ox.enabled
-actions.precombat+=/variable,name=woo_score,op=set,value=talent.weapons_of_order.enabled+talent.call_to_arms.enabled
-
 # blackout combo
 actions.precombat+=/variable,name=boc_count,op=set,value=0
-actions.precombat+=/variable,name=offset,op=set,value=-0.1
-
-# base salsalchp
-actions.precombat+=/variable,name=chp_threshold,op=set,value=6
 
 #################
 # BEGIN ACTIONS #
@@ -102,9 +94,11 @@ actions+=/use_item,slot=trinket1
 actions+=/use_item,slot=trinket2
 
 # Cooldown Action Lists
-actions+=/call_action_list,name=cooldowns_improved_niuzao_woo,if=variable.niuzao_score=2&variable.woo_score<=1
-actions+=/call_action_list,name=cooldowns_improved_niuzao_cta,if=variable.niuzao_score=2&variable.woo_score=2
-actions+=/call_action_list,name=cooldowns_niuzao_woo,if=variable.niuzao_score<=1
+# $(niuzao_score)=(talent.invoke_niuzao_the_black_ox.enabled+talent.improved_invoke_niuzao_the_black_ox.enabled)
+# $(woo_score)=(talent.weapons_of_order.enabled+talent.call_to_arms.enabled)
+actions+=/call_action_list,name=cooldowns_improved_niuzao_woo,if=(talent.invoke_niuzao_the_black_ox.enabled+talent.improved_invoke_niuzao_the_black_ox.enabled)=2&(talent.weapons_of_order.enabled+talent.call_to_arms.enabled)<=1
+actions+=/call_action_list,name=cooldowns_improved_niuzao_cta,if=(talent.invoke_niuzao_the_black_ox.enabled+talent.improved_invoke_niuzao_the_black_ox.enabled)=2&(talent.weapons_of_order.enabled+talent.call_to_arms.enabled)=2
+actions+=/call_action_list,name=cooldowns_niuzao_woo,if=(talent.invoke_niuzao_the_black_ox.enabled+talent.improved_invoke_niuzao_the_black_ox.enabled)<=1
 
 # Rotation Action Lists
 actions+=/call_action_list,name=rotation_blackout_combo,if=talent.blackout_combo.enabled&talent.salsalabims_strength.enabled&talent.charred_passions.enabled&!talent.fluidity_of_motion.enabled
@@ -248,14 +242,15 @@ actions.rotation_fom_boc+=/chi_burst,if=talent.chi_burst.enabled
 
 # Name: Salsalabim's Strength Charred Passions
 # basic sequence: ks bof x x x x x
-actions.rotation_salsal_chp+=/keg_smash,if=buff.charred_passions.remains<=variable.chp_threshold
-actions.rotation_salsal_chp+=/breath_of_fire
+# $(chp_threshold)=6
+actions.rotation_salsal_chp+=/keg_smash,if=buff.charred_passions.remains<=6
+actions.rotation_salsal_chp+=/breath_of_fire,if=buff.charred_passions.remains<=0.5
 actions.rotation_salsal_chp+=/blackout_kick
 actions.rotation_salsal_chp+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
 actions.rotation_salsal_chp+=/exploding_keg,if=cooldown.breath_of_fire.remains>=12&talent.exploding_keg.enabled
 actions.rotation_salsal_chp+=/rushing_jade_wind,if=buff.rushing_jade_wind.down&talent.rushing_jade_wind.enabled
-actions.rotation_salsal_chpsalsal_chp+=/black_ox_brew,if=(energy+(energy.regen*(buff.charred_passions.remains+execute_time-variable.chp_threshold)))>=65&talent.black_ox_brew.enabled
-actions.rotation_salsal_chp+=/spinning_crane_kick,if=(energy+(energy.regen*(buff.charred_passions.remains+execute_time-variable.chp_threshold)))>=65
+actions.rotation_salsal_chpsalsal_chp+=/black_ox_brew,if=(energy+(energy.regen*(buff.charred_passions.remains+execute_time-6)))>=65&talent.black_ox_brew.enabled
+actions.rotation_salsal_chp+=/spinning_crane_kick,if=(energy+(energy.regen*(buff.charred_passions.remains+execute_time-6)))>=65
 actions.rotation_calsal_chp+=/celestial_brew,if=!buff.blackout_combo.up
 actions.rotation_salsal_chp+=/chi_wave,if=talent.chi_wave.enabled
 actions.rotation_salsal_chp+=/chi_burst,if=talent.chi_burst.enabled
@@ -278,4 +273,4 @@ actions.rotation_fallback+=/chi_burst,if=talent.chi_burst.enabled
 #########
 
 enemy=PunchyKicky
-actions=auto_attack,damage=140000,range=100,attack_speed=1.50
+actions=auto_attack,damage=196000,range=100,attack_speed=1.50
