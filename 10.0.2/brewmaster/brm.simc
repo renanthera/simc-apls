@@ -305,8 +305,8 @@ $(3)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1IAAAApRKJRiESIJJJpk
 # 4 pao chp salsal bdb boc sd
 $(4)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAJFKtkkASSatIAAAApRKJRiESIJJJpkEACplWJA
 
-# some fom garbage
-# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAJNKtkkASSatIAAAApRKJRiESIJJJpkEACplWJAC
+# 5 some fom garbage
+$(5)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAJNKtkkASSatIAAAApRKJRiESIJJJpkEACplWJAC
 
 # icy veins
 $(i1)=talents=BwQAdeydY63Y4XKaboK13uRRQAAAAAAAQAAAAAFKlkkQIJp1IAAAApEpkExBSkESSSAAQkWKSA
@@ -319,49 +319,51 @@ $(w2)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQhSLJJESSaNCAAAQahSSkIRSIJJBC
 $(w3)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAFKtkkQIJp1IAAAApFKJRiEJhkkEIgDIEplCA
 $(w4)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAFKtkkQIJp1IAAAApFKJRikEhkkEIBgEplCA
 
-profileset.$(name)i1+=$(i1)
-profileset.$(name)i2+=$(i2)
-profileset.$(name)i3+=$(i3)
+# profileset.$(name)i1+=$(i1)
+# profileset.$(name)i2+=$(i2)
+# profileset.$(name)i3+=$(i3)
 
-profileset.$(name)w1+=$(w1)
-profileset.$(name)w2+=$(w2)
-profileset.$(name)w3+=$(w3)
-profileset.$(name)w4+=$(w4)
+# profileset.$(name)w1+=$(w1)
+# profileset.$(name)w2+=$(w2)
+# profileset.$(name)w3+=$(w3)
+# profileset.$(name)w4+=$(w4)
 
 
 # kateborf1base is best. current default.
 
 profileset.kateborf1base+=$(1)
-profileset.kateborf1a+=$(1)
-profileset.kateborf1a+=$(-sd+rjw)
-profileset.kateborf1b+=$(1)
-profileset.kateborf1b+=$(-bnw+bob)
-profileset.kateborf1c+=$(1)
-profileset.kateborf1c+=$(-lb+ton)
+# profileset.kateborf1a+=$(1)
+# profileset.kateborf1a+=$(-sd+rjw)
+# profileset.kateborf1b+=$(1)
+# profileset.kateborf1b+=$(-bnw+bob)
+# profileset.kateborf1c+=$(1)
+# profileset.kateborf1c+=$(-lb+ton)
 
 profileset.kateborf2base+=$(2)
-profileset.kateborf2a+=$(2)
-profileset.kateborf2a+=$(-sd+rjw)
-profileset.kateborf2b+=$(2)
-profileset.kateborf2b+=$(-bnw+bob)
-profileset.kateborf2c+=$(2)
-profileset.kateborf2c+=$(-lb+ton)
+# profileset.kateborf2a+=$(2)
+# profileset.kateborf2a+=$(-sd+rjw)
+# profileset.kateborf2b+=$(2)
+# profileset.kateborf2b+=$(-bnw+bob)
+# profileset.kateborf2c+=$(2)
+# profileset.kateborf2c+=$(-lb+ton)
 
 profileset.kateborf3base+=$(3)
-profileset.kateborf3a+=$(3)
-profileset.kateborf3a+=$(-sd+rjw)
-profileset.kateborf3b+=$(3)
-profileset.kateborf3b+=$(-bnw+bob)
-profileset.kateborf3c+=$(3)
-profileset.kateborf3c+=$(-lb+ton)
+# profileset.kateborf3a+=$(3)
+# profileset.kateborf3a+=$(-sd+rjw)
+# profileset.kateborf3b+=$(3)
+# profileset.kateborf3b+=$(-bnw+bob)
+# profileset.kateborf3c+=$(3)
+# profileset.kateborf3c+=$(-lb+ton)
 
 profileset.kateborf4base+=$(4)
-profileset.kateborf4a+=$(4)
-profileset.kateborf4a+=$(-sd+rjw)
-profileset.kateborf4b+=$(4)
-profileset.kateborf4b+=$(-bnw+bob)
-profileset.kateborf4c+=$(4)
-profileset.kateborf4c+=$(-lb+ton)
+# profileset.kateborf4a+=$(4)
+# profileset.kateborf4a+=$(-sd+rjw)
+# profileset.kateborf4b+=$(4)
+# profileset.kateborf4b+=$(-bnw+bob)
+# profileset.kateborf4c+=$(4)
+# profileset.kateborf4c+=$(-lb+ton)
+
+profileset.kateborf5base+=$(5)
 
 # TARGET COUNTS
 
