@@ -11,10 +11,9 @@ target_error=0.1
 desired_targets=1
 ptr=1
 # debug=1
+# log=1
 
 max_time=300
-
-process_priority=normal
 
 html=$(name).html
 output=$(name).txt
@@ -30,7 +29,6 @@ spec=brewmaster
 
 race=vulpera
 talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkW7ACAAAQakSSkIhESSSSKJB0CRapVC
-#talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1IAAAApRKJRiESIJJJpkEQJRSapVCS
 
 # verified pots, appears to be by far the best
 potion=elemental_potion_of_ultimate_power_3
@@ -67,6 +65,7 @@ actions.precombat=flask
 actions.precombat+=/food
 actions.precombat+=/augmentation
 actions.precombat+=/snapshot_stats
+actions.precombat+=/variable,op=set,name=snapshot_haste,value=spell_haste
 actions.precombat+=/potion
 actions.precombat+=/chi_burst
 actions.precombat+=/chi_wave
@@ -102,8 +101,11 @@ actions+=/call_action_list,name=cooldowns_improved_niuzao_cta,if=$(niuzao_score)
 actions+=/call_action_list,name=cooldowns_niuzao_woo,if=$(niuzao_score)<=1
 
 # Rotation Action Lists
-actions+=/call_action_list,name=rotation_blackout_combo,if=talent.blackout_combo.enabled&talent.salsalabims_strength.enabled&talent.charred_passions.enabled&!talent.fluidity_of_motion.enabled
-actions+=/call_action_list,name=rotation_fom_boc,if=talent.blackout_combo.enabled&talent.salsalabims_strength.enabled&talent.charred_passions.enabled&talent.fluidity_of_motion.enabled
+$(base_haste_percent)=(1%variable.snapshot_haste-1)*100
+# should be replaced with the following after more testing
+# $(base_haste_percent)=(1%spell_haste-1)*100
+actions+=/call_action_list,name=rotation_blackout_combo,if=talent.blackout_combo.enabled&talent.salsalabims_strength.enabled&talent.charred_passions.enabled&(!talent.fluidity_of_motion.enabled|$(base_haste_percent)>=1%3)
+actions+=/call_action_list,name=rotation_fom_boc,if=talent.blackout_combo.enabled&talent.salsalabims_strength.enabled&talent.charred_passions.enabled&talent.fluidity_of_motion.enabled&$(base_haste_percent)<1%3
 actions+=/call_action_list,name=rotation_salsal_chp,if=!talent.blackout_combo.enabled&talent.salsalabims_strength.enabled&talent.charred_passions.enabled
 
 # Fallback Rotation
@@ -250,7 +252,7 @@ actions.rotation_salsal_chp+=/blackout_kick
 actions.rotation_salsal_chp+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
 actions.rotation_salsal_chp+=/exploding_keg,if=cooldown.breath_of_fire.remains>=12&talent.exploding_keg.enabled
 actions.rotation_salsal_chp+=/rushing_jade_wind,if=buff.rushing_jade_wind.down&talent.rushing_jade_wind.enabled
-actions.rotation_salsal_chpsalsal_chp+=/black_ox_brew,if=(energy+(energy.regen*(buff.charred_passions.remains+execute_time-$(chp_threshold))))>=65&talent.black_ox_brew.enabled
+actions.rotation_salsal_chp+=/black_ox_brew,if=(energy+(energy.regen*(buff.charred_passions.remains+execute_time-$(chp_threshold))))>=65&talent.black_ox_brew.enabled
 actions.rotation_salsal_chp+=/spinning_crane_kick,if=(energy+(energy.regen*(buff.charred_passions.remains+execute_time-$(chp_threshold))))>=65
 actions.rotation_calsal_chp+=/celestial_brew,if=!buff.blackout_combo.up
 actions.rotation_salsal_chp+=/chi_wave,if=talent.chi_wave.enabled
@@ -317,49 +319,49 @@ $(w2)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQhSLJJESSaNCAAAQahSSkIRSIJJBC
 $(w3)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAFKtkkQIJp1IAAAApFKJRiEJhkkEIgDIEplCA
 $(w4)=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAFKtkkQIJp1IAAAApFKJRikEhkkEIBgEplCA
 
-# profileset.$(name)i1+=$(i1)
-# profileset.$(name)i2+=$(i2)
-# profileset.$(name)i3+=$(i3)
+profileset.$(name)i1+=$(i1)
+profileset.$(name)i2+=$(i2)
+profileset.$(name)i3+=$(i3)
 
-# profileset.$(name)w1+=$(w1)
-# profileset.$(name)w2+=$(w2)
-# profileset.$(name)w3+=$(w3)
-# profileset.$(name)w4+=$(w4)
+profileset.$(name)w1+=$(w1)
+profileset.$(name)w2+=$(w2)
+profileset.$(name)w3+=$(w3)
+profileset.$(name)w4+=$(w4)
 
 
 # kateborf1base is best. current default.
 
-# profileset.kateborf1base+=$(1)
-# profileset.kateborf1a+=$(1)
-# profileset.kateborf1a+=$(-sd+rjw)
-# profileset.kateborf1b+=$(1)
-# profileset.kateborf1b+=$(-bnw+bob)
-# profileset.kateborf1c+=$(1)
-# profileset.kateborf1c+=$(-lb+ton)
+profileset.kateborf1base+=$(1)
+profileset.kateborf1a+=$(1)
+profileset.kateborf1a+=$(-sd+rjw)
+profileset.kateborf1b+=$(1)
+profileset.kateborf1b+=$(-bnw+bob)
+profileset.kateborf1c+=$(1)
+profileset.kateborf1c+=$(-lb+ton)
 
-# profileset.kateborf2base+=$(2)
-# profileset.kateborf2a+=$(2)
-# profileset.kateborf2a+=$(-sd+rjw)
-# profileset.kateborf2b+=$(2)
-# profileset.kateborf2b+=$(-bnw+bob)
-# profileset.kateborf2c+=$(2)
-# profileset.kateborf2c+=$(-lb+ton)
+profileset.kateborf2base+=$(2)
+profileset.kateborf2a+=$(2)
+profileset.kateborf2a+=$(-sd+rjw)
+profileset.kateborf2b+=$(2)
+profileset.kateborf2b+=$(-bnw+bob)
+profileset.kateborf2c+=$(2)
+profileset.kateborf2c+=$(-lb+ton)
 
-# profileset.kateborf3base+=$(3)
-# profileset.kateborf3a+=$(3)
-# profileset.kateborf3a+=$(-sd+rjw)
-# profileset.kateborf3b+=$(3)
-# profileset.kateborf3b+=$(-bnw+bob)
-# profileset.kateborf3c+=$(3)
-# profileset.kateborf3c+=$(-lb+ton)
+profileset.kateborf3base+=$(3)
+profileset.kateborf3a+=$(3)
+profileset.kateborf3a+=$(-sd+rjw)
+profileset.kateborf3b+=$(3)
+profileset.kateborf3b+=$(-bnw+bob)
+profileset.kateborf3c+=$(3)
+profileset.kateborf3c+=$(-lb+ton)
 
-# profileset.kateborf4base+=$(4)
-# profileset.kateborf4a+=$(4)
-# profileset.kateborf4a+=$(-sd+rjw)
-# profileset.kateborf4b+=$(4)
-# profileset.kateborf4b+=$(-bnw+bob)
-# profileset.kateborf4c+=$(4)
-# profileset.kateborf4c+=$(-lb+ton)
+profileset.kateborf4base+=$(4)
+profileset.kateborf4a+=$(4)
+profileset.kateborf4a+=$(-sd+rjw)
+profileset.kateborf4b+=$(4)
+profileset.kateborf4b+=$(-bnw+bob)
+profileset.kateborf4c+=$(4)
+profileset.kateborf4c+=$(-lb+ton)
 
 # TARGET COUNTS
 
