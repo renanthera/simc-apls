@@ -138,17 +138,19 @@ actions.precombat+=/variable,op=set,name=rotation_selection,value=3,if=$(blackou
 # ROTATION APLS #
 #################
 
-# actions+=/call_action_list,name=rotation_blackout_combo_celestial_flames_chp,if=variable.rotation_selection=3
-# actions+=/call_action_list,name=rotation_blackout_combo,if=variable.rotation_selection=2&$(fom_haste_threshold_met)
-# actions+=/call_action_list,name=rotation_fom_boc,if=variable.rotation_selection=2&$(fom_haste_threshold_not_met)
-# actions+=/call_action_list,name=rotation_salsal_chp,if=variable.rotation_selection=1
-# actions+=/call_action_list,name=rotation_fallback,if=variable.rotation_selection=0
-
+# correct rotations
 actions+=/call_action_list,name=rotation_blackout_combo_celestial_flames_chp,if=variable.rotation_selection=3
-actions+=/call_action_list,name=rotation_salsal_chp,if=variable.rotation_selection=2&$(fom_haste_threshold_met)
+actions+=/call_action_list,name=rotation_blackout_combo,if=variable.rotation_selection=2&$(fom_haste_threshold_met)
 actions+=/call_action_list,name=rotation_fom_boc,if=variable.rotation_selection=2&$(fom_haste_threshold_not_met)
 actions+=/call_action_list,name=rotation_salsal_chp,if=variable.rotation_selection=1
 actions+=/call_action_list,name=rotation_fallback,if=variable.rotation_selection=0
+
+# used to check if boc specialized rotations are actually useful
+# actions+=/call_action_list,name=rotation_blackout_combo_celestial_flames_chp,if=variable.rotation_selection=3
+# actions+=/call_action_list,name=rotation_salsal_chp,if=variable.rotation_selection=2&$(fom_haste_threshold_met)
+# actions+=/call_action_list,name=rotation_fom_boc,if=variable.rotation_selection=2&$(fom_haste_threshold_not_met)
+# actions+=/call_action_list,name=rotation_salsal_chp,if=variable.rotation_selection=1
+# actions+=/call_action_list,name=rotation_fallback,if=variable.rotation_selection=0
 
 #################
 # DPS COOLDOWNS #
