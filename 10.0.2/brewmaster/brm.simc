@@ -28,16 +28,16 @@ spec=brewmaster
 #############################
 
 race=vulpera
-# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkW7ACAAAQakSSkIhESSSSKJB0CRapVC
-talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAUo0SSCkkkWLCAAAQakSSkIhESSSSKJ4AIEplWJA
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkW7ACAAAQakSSkIhESSSSKJB0CRapVC
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAUo0SSCkkkWLCAAAQakSSkIhESSSSKJ4AIEplWJA
 
 
 # verified pots, appears to be by far the best
 potion=elemental_potion_of_ultimate_power_3
 # did not verify, looks really good in beta content though
-flask=phial_of_glacial_fury_3
+flask=phial_of_static_empowerment_3
 # grand banquet of the kaluak is not working. likely preferable to filet of fangs
-food=filet_of_fangs
+food=fated_fortune_cookie
 augmentation=draconic
 temporary_enchant=main_hand:buzzing_rune_3/off_hand:buzzing_rune_3
 
@@ -54,10 +54,13 @@ legs=,id=200364,bonus_id=1472/8767,ilevel=424
 feet=,id=200361,bonus_id=1472/8767,ilevel=415
 finger1=,id=195480,bonus_id=3524,enchant_id=6550,ilevel=421
 finger2=,id=195526,bonus_id=3524,enchant_id=6550,ilevel=431
-trinket1=,id=194302,bonus_id=6652/7979/1472/8767,ilevel=421
-trinket2=,id=194299,bonus_id=7979/6652/1472/8767,ilevel=415
+trinket1=manic_grieftorch,id=194308,bonus_id=4800/4786/1498
+trinket2=eye_of_skovald,id=133641,bonus_id=8810,ilevel=421
 main_hand=,id=195512,bonus_id=3524,enchant_id=6649,ilevel=421
 off_hand=,id=195512,bonus_id=3524,enchant_id=6649,ilevel=421
+
+# trinket1=,id=194302,bonus_id=6652/7979/1472/8767,ilevel=421
+# trinket2=,id=194299,bonus_id=7979/6652/1472/8767,ilevel=415
 
 ######################
 # PRE-COMBAT ACTIONS #
