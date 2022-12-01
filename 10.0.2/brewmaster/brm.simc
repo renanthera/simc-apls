@@ -5,9 +5,9 @@
 ##################
 
 $(name)=brm
-threads=32
+threads=48
 iterations=100000
-target_error=0.1
+target_error=0.5
 desired_targets=1
 ptr=1
 # debug=1
@@ -28,9 +28,9 @@ spec=brewmaster
 #############################
 
 # 1
-talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkSLCAAAQakSSkIhESSSSKJ4AIEplWJA
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkSLCAAAQakSSkIhESSSSKJ4AIEplWJA
 # 2
-# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkWLCAAAQakSSkIhESSSSKJ4AIEplWJA
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkWLCAAAQakSSkIhESSSSKJ4AIEplWJA
 
 race=vulpera
 
@@ -105,8 +105,10 @@ actions+=/call_action_list,name=cooldowns_niuzao_woo,if=$(niuzao_score)<=1
 # ROTATION APLS #
 #################
 
-actions+=/call_action_list,name=rotation_one,if=talent.dragonfire_brew.enabled
-actions+=/call_action_list,name=rotation_two,if=talent.charred_passions.enabled
+actions+=/call_action_list,name=rotation
+
+# actions+=/call_action_list,name=rotation_one,if=talent.dragonfire_brew.enabled
+# actions+=/call_action_list,name=rotation_two,if=talent.charred_passions.enabled
 
 #################
 # DPS COOLDOWNS #
@@ -193,22 +195,27 @@ actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=cooldown.purifying_bre
 
 $(etks)=energy+energy.regen*(cooldown.keg_smash.remains+execute_time)>=65
 
-actions.rotation_one+=/blackout_kick
-actions.rotation_one+=/breath_of_fire
-actions.rotation_one+=/keg_smash
-actions.rotation_one+=/rising_sun_kick
-actions.rotation_one+=/tiger_palm,if=$(etks)
-actions.rotation_one+=/chi_wave
-actions.rotation_one+=/celestial_brew
+actions.rotation+=/blackout_kick
+actions.rotation+=/breath_of_fire
+actions.rotation+=/keg_smash
+actions.rotation+=/rising_sun_kick
 
-actions.rotation_two+=/blackout_kick
-actions.rotation_two+=/breath_of_fire,if=buff.charred_passions.remains<1.5
-actions.rotation_two+=/keg_smash
-actions.rotation_two+=/rising_sun_kick
+# actions.rotation_one+=/blackout_kick
+# actions.rotation_one+=/breath_of_fire
+# actions.rotation_one+=/keg_smash
+# actions.rotation_one+=/rising_sun_kick
+# actions.rotation_one+=/tiger_palm,if=$(etks)
+# actions.rotation_one+=/chi_wave
+# actions.rotation_one+=/celestial_brew
+
+# actions.rotation_two+=/blackout_kick
+# actions.rotation_two+=/breath_of_fire,if=buff.charred_passions.remains<1.5
+# actions.rotation_two+=/keg_smash
+# actions.rotation_two+=/rising_sun_kick
 # actions.rotation_two+=/spinning_crane_kick,if=$(etks)
-actions.rotation_two+=/tiger_palm,if=$(etks)
-actions.rotation_two+=/chi_wave
-actions.rotation_two+=/celestial_brew
+# actions.rotation_two+=/tiger_palm,if=$(etks)
+# actions.rotation_two+=/chi_wave
+# actions.rotation_two+=/celestial_brew
 
 #########
 # ENEMY #
@@ -234,3 +241,25 @@ actions=auto_attack,damage=196000,range=100,attack_speed=1.50
 
 # profileset.tp+=actions.rotation_two+=/tiger_palm,if=$(etks)
 # profileset.sck+=actions.rotation_two+=/spinning_crane_kick,if=$(etks)
+
+$(tp)=actions.rotation+=/tiger_palm,if=$(etks)
+$(sck)=actions.rotation+=/spinning_crane_kick,if=$(etks)
+
+$(chp)=class_talents=101466:1/101467:0
+$(dfb)=class_talents=101466:0/101467:1
+
+# desired_targets=k
+
+# tp v sck
+# dfb v chp
+# varying target counts
+# tp dfb, sck dfb, tp chp, sck chp
+
+# # tpdfb
+# m1\n20|profileset.tpdfb%02d+=$(dfb)\nprofileset.tpdfb%02d+=desired_targets=%d\nprofileset.tpdfb%02d+=$(tp)\n
+# # sckdfb
+# m1\n20|profileset.sckdfb%02d+=$(dfb)\nprofileset.sckdfb%02d+=desired_targets=%d\nprofileset.sckdfb%02d+=$(sck)\n
+# # tpchp
+# m1\n20|profileset.tpchp%02d+=$(chp)\nprofileset.tpchp%02d+=desired_targets=%d\nprofileset.tpchp%02d+=$(tp)\n
+# sckchp
+m1\n20|profileset.sckchp%02d+=$(chp)\nprofileset.sckchp%02d+=desired_targets=%d\nprofileset.sckchp%02d+=$(sck)\n
