@@ -8,7 +8,7 @@ $(name)=brm
 threads=48
 iterations=100000
 target_error=0.5
-desired_targets=1
+desired_targets=20
 ptr=1
 # debug=1
 # log=1
@@ -199,6 +199,7 @@ actions.rotation+=/blackout_kick
 actions.rotation+=/breath_of_fire
 actions.rotation+=/keg_smash
 actions.rotation+=/rising_sun_kick
+actions.rotation+=/spinning_crane_kick
 
 # actions.rotation_one+=/blackout_kick
 # actions.rotation_one+=/breath_of_fire
@@ -262,4 +263,4 @@ $(dfb)=class_talents=101466:0/101467:1
 # # tpchp
 # m1\n20|profileset.tpchp%02d+=$(chp)\nprofileset.tpchp%02d+=desired_targets=%d\nprofileset.tpchp%02d+=$(tp)\n
 # sckchp
-m1\n20|profileset.sckchp%02d+=$(chp)\nprofileset.sckchp%02d+=desired_targets=%d\nprofileset.sckchp%02d+=$(sck)\n
+# m1\n20|profileset.sckchp%02d+=$(chp)\nprofileset.sckchp%02d+=desired_targets=%d\nprofileset.sckchp%02d+=$(sck)\n
