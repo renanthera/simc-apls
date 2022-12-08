@@ -23,16 +23,36 @@ level=70
 role=tank
 spec=brewmaster
 
-#############################
-# BASE CHARACTER PARAMETERS #
-#############################
+###########
+# TALENTS #
+###########
 
 # 1
 # talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkSLCAAAQakSSkIhESSSSKJ4AIEplWJA
 # 2
-talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkWLCAAAQakSSkIhESSSSKJ4AIEplWJA
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkWLCAAAQakSSkIhESSSSKJ4AIEplWJA
 # 3
 # talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1IAAAApRKJRiESIJJJpkgDQJRSapVC
+
+# # Test Rotation APLs
+# # BoC FoM ChP High Haste
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAJNKtkkASSaNCAAAQakSSkIhESSSSKJ4AISkWalA
+# enchant_haste_rating=10000
+# # BoC FoM ChP Low Haste
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAJNKtkkASSaNCAAAQakSSkIhESSSSKJ4AISkWalA
+# gear_haste_rating=1
+# # BoC SBT
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAJFKtkkASSaNCAAAQakSSkIhESSSSKJ4AISkWalA
+# # ChP
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkW7ACAAAQakSSkIhESSSSKJ4AISkWalA
+# # DfB
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkS7ACAAAQakSSkIhESSSSKJ4AISkWalA
+
+# Test Cooldown APLs
+
+#############################
+# BASE CHARACTER PARAMETERS #
+#############################
 
 race=vulpera
 
@@ -72,10 +92,6 @@ actions.precombat+=/potion
 actions.precombat+=/chi_burst
 actions.precombat+=/chi_wave
 
-#####################################
-# PRE-COMBAT VARIABLE CONFIGURATION #
-#####################################
-
 #################
 # BEGIN ACTIONS #
 #################
@@ -103,14 +119,48 @@ actions+=/call_action_list,name=cooldowns_niuzao_woo,if=$(niuzao_score)<=1
 # ROTATION SELECTION PRIORITY #
 ###############################
 
+$(count)=3
+# Priority Order:
+# 1. BoC
+#    a. No FoM | FoM High Haste
+#    b. FoM
+# 2. ChP | DfB Salsal
+# 3. Fallback
+# TODO: BoC CFl
+
+# Current haste in % * 100
+$(haste_percent)=(1%spell_haste-1)*100
+
+# Sal'sal & ChP
+$(salsal_chp_condition)=talent.salsalabims_strength.enabled&talent.charred_passions.enabled
+
+# BoC & $(salsal_chp_condition) & (haste > 1/3 and FoM) or not FoM
+$(blackout_combo_condition)=talent.blackout_combo.enabled&$(salsal_chp_condition)
+
+# BoC Haste Threshold
+$(fom_haste_threshold_met)=(($(haste_percent)>=1%3&talent.fluidity_of_motion.enabled)|!talent.fluidity_of_motion.enabled)
+$(fom_haste_threshold_not_met)=($(haste_percent)<1%3&talent.fluidity_of_motion.enabled)
+
+# $(blackout_combo_condition) & CFl
+$(blackout_combo_celestial_flames_condition)=$(blackout_combo_condition)&talent.celestial_flames.enabled
+
+actions.precombat+=/variable,op=set,name=rotation_selection,value=0
+actions.precombat+=/variable,op=set,name=rotation_selection,value=1,if=(talent.charred_passions.enabled|talent.dragonfire_brew.enabled)&talent.salsalabims_strength.enabled
+actions.precombat+=/variable,op=set,name=rotation_selection,value=2,if=talent.charred_passions.enabled&talent.salsalabims_strength.enabled&talent.blackout_combo.enabled
+
+actions.precombat+=/variable,op=set,name=rotation_selection,value=$(count)-variable.rotation_selection
+
 #################
 # ROTATION APLS #
 #################
 
-actions+=/call_action_list,name=rotation
+# Blackout Combo
+actions.precombat+=/variable,name=boc_count,op=set,value=0
 
-# actions+=/call_action_list,name=rotation_one,if=talent.dragonfire_brew.enabled
-# actions+=/call_action_list,name=rotation_two,if=talent.charred_passions.enabled
+actions+=/call_action_list,name=rotation_boc,if=variable.rotation_selection=1&$(fom_haste_threshold_met)
+actions+=/call_action_list,name=rotation_fom_boc,if=variable.rotation_selection=1&$(fom_haste_threshold_not_met)
+actions+=/call_action_list,name=rotation_chp_dfb,if=variable.rotation_selection=2
+actions+=/call_action_list,name=rotation_fallback,if=variable.rotation_selection=3
 
 #################
 # DPS COOLDOWNS #
@@ -123,10 +173,10 @@ actions+=/call_action_list,name=rotation
 actions.cooldowns_niuzao_woo+=/weapons_of_order,if=talent.weapons_of_order.enabled
 actions.cooldowns_niuzao_woo+=/invoke_niuzao_the_black_ox,if=buff.weapons_of_order.remains<=16&talent.weapons_of_order.enabled
 actions.cooldowns_niuzao_woo+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
-actions.cooldowns_niuzao_woo+=/purifying_brew,if=stagger.amounttototalpct>=0.7
-actions.cooldowns_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.remains_expected<5
-# actions.cooldowns_niuzao_woo+=/purifying_brew,if=stagger.amounttototalpct>=0.7&!buff.blackout_combo.up
-# actions.cooldowns_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.remains_expected<5&!buff.blackout_combo.up
+# actions.cooldowns_niuzao_woo+=/purifying_brew,if=stagger.amounttototalpct>=0.7
+# actions.cooldowns_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.remains_expected<5
+actions.cooldowns_niuzao_woo+=/purifying_brew,if=stagger.amounttototalpct>=0.7&!buff.blackout_combo.up
+actions.cooldowns_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.remains_expected<5&!buff.blackout_combo.up
 
 # magic numbers being used in Improved Niuzao + [Weapons of Order / Call to Arms]
 # important tweakables
@@ -197,24 +247,119 @@ actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=cooldown.purifying_bre
 # ROTATIONS #
 #############
 
+# included abilities:
+# blackout kick, rising sun kick, keg smash, breath of fire, exploding keg, rushing jade wind, black ox brew, spinning crane kick, celestial brew, chi wave, chi burst
+
 # after latest bugfixes:
 # 1t: tp
 # 2t+: sck
-
 # 1t: dfb
 # 2t: chp
 # 3t: dfb
 
+$(ttsks3)=cooldown.blackout_kick.duration_expected*(1-(variable.boc_count)%%3)+cooldown.blackout_kick.remains+1
+$(ttsks2)=cooldown.blackout_kick.duration_expected*(1-(variable.boc_count)%%2)+cooldown.blackout_kick.remains+1
+$(etsks)=energy+energy.regen*(variable.time_to_scheduled_ks+execute_time)
 $(etks)=energy+energy.regen*(cooldown.keg_smash.remains+execute_time)>=65
 
-actions.rotation+=/breath_of_fire,if=talent.charred_passions.enabled&buff.charred_passions.remains<1.5|talent.dragonfire_brew.enabled
-actions.rotation+=/blackout_kick
-actions.rotation+=/keg_smash
-actions.rotation+=/rising_sun_kick
-actions.rotation+=/spinning_crane_kick,if=$(etks)&active_enemies>1
-actions.rotation+=/tiger_palm,if=$(etks)&active_enemies=1
-actions.rotation+=/chi_wave
-actions.rotation+=/celestial_brew
+# Name: Blackout Combo Salsalabim's Strength Charred Passions [Shadowboxing Treads or high haste Fluidity of Motion]
+# basic sequence: bok bof x x bok ks x x
+# fom sequence: bok bof x bok ks x
+actions.rotation_boc+=/variable,name=boc_count,op=add,value=1,if=prev.blackout_kick
+actions.rotation_boc+=/variable,name=time_to_scheduled_ks,op=set,value=$(ttsks2)
+actions.rotation_boc+=/blackout_kick
+# actions.rotation_boc+=/wait,sec=0.05,if=buff.charred_passions.remains-cooldown.blackout_kick.remains<0.3&buff.charred_passions.remains<0.5&buff.charred_passions.up
+actions.rotation_boc+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
+actions.rotation_boc+=/keg_smash,if=buff.blackout_combo.up&variable.boc_count%%2=0
+actions.rotation_boc+=/breath_of_fire,if=buff.blackout_combo.up&variable.boc_count%%2=1
+actions.rotation_boc+=/exploding_keg,if=talent.exploding_keg.enabled
+actions.rotation_boc+=/rushing_jade_wind,if=buff.rushing_jade_wind.down&talent.rushing_jade_wind.enabled
+actions.rotation_boc+=/black_ox_brew,if=$(etsks)>=65&talent.black_ox_brew.enabled
+actions.rotation_boc+=/keg_smash,if=cooldown.keg_smash.charges_fractional>1&cooldown.keg_smash.full_recharge_time<=variable.time_to_scheduled_ks&$(etsks)>=80
+actions.rotation_boc+=/spinning_crane_kick,if=$(etsks)>=65&active_enemies>1
+actions.rotation_boc+=/tiger_palm,if=$(etsks)>=65&active_enemies=1&!buff.blackout_combo.up
+actions.rotation_boc+=/celestial_brew,if=talent.celestial_brew.enabled&!buff.blackout_combo.up
+actions.rotation_boc+=/chi_wave,if=talent.chi_wave.enabled
+actions.rotation_boc+=/chi_burst,if=talent.chi_burst.enabled
+
+# Name: Blackout Combo Salsalabim's Strength Chared Passions Fluidity of Motion Not High Haste
+# basic sequence: bok bof x bok (ks/x) x bok ks x
+actions.rotation_fom_boc+=/variable,name=boc_count,op=add,value=1,if=prev.blackout_kick
+actions.rotation_fom_boc+=/variable,name=time_to_scheduled_ks,op=set,value=$(ttsks3)
+actions.rotation_fom_boc+=/blackout_kick
+actions.rotation_fom_boc+=/rising_sun_kick,if=variable.boc_count%%3=1&talent.rising_sun_kick.enabled
+actions.rotation_fom_boc+=/breath_of_fire,if=buff.blackout_combo.up&variable.boc_count%%3=1
+actions.rotation_fom_boc+=/keg_smash,if=buff.blackout_combo.up&variable.boc_count%%3=2
+actions.rotation_fom_boc+=/keg_smash,if=buff.blackout_combo.up&variable.boc_count%%3=0&cooldown.keg_smash.charges_fractional>1&cooldown.keg_smash.full_recharge_time<=variable.time_to_scheduled_ks&$(etsks)>=80
+actions.rotation_fom_boc+=/cancel_buff,name=blackout_combo,if=variable.boc_count%%3=0
+actions.rotation_fom_boc+=/exploding_keg,if=talent.exploding_keg.enabled
+actions.rotation_fom_boc+=/rushing_jade_wind,if=buff.rushing_jade_wind.down&talent.rushing_jade_wind.enabled
+actions.rotation_fom_boc+=/black_ox_brew,if=$(etsks)>=65&talent.black_ox_brew.enabled
+actions.rotation_fom_boc+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
+actions.rotation_fom_boc+=/spinning_crane_kick,if=$(etsks)>=65&buff.charred_passions.up&active_enemies>1
+actions.rotation_fom_boc+=/tiger_palm,if=$(etsks)>=65&active_enemies=1&!buff.blackout_combo.up
+actions.rotation_fom_boc+=/celestial_brew,if=!buff.blackout_combo.up
+actions.rotation_fom_boc+=/chi_wave,if=talent.chi_wave.enabled
+actions.rotation_fom_boc+=/chi_burst,if=talent.chi_burst.enabled
+
+# Name: ChP or DFB, no BoC
+actions.rotation_chp_dfb+=/breath_of_fire,if=talent.charred_passions.enabled&buff.charred_passions.remains<1.5|talent.dragonfire_brew.enabled
+actions.rotation_chp_dfb+=/blackout_kick
+actions.rotation_chp_dfb+=/keg_smash
+actions.rotation_chp_dfb+=/exploding_keg,if=talent.exploding_keg.enabled
+actions.rotation_chp_dfb+=/rushing_jade_wind,if=buff.rushing_jade_wind.down&talent.rushing_jade_wind.enabled
+actions.rotation_chp_dfb+=/black_ox_brew,if=$(etsks)>=65&talent.black_ox_brew.enabled
+actions.rotation_chp_dfb+=/rising_sun_kick
+actions.rotation_chp_dfb+=/spinning_crane_kick,if=$(etks)&active_enemies>1
+actions.rotation_chp_dfb+=/tiger_palm,if=$(etks)&active_enemies=1
+actions.rotation_chp_dfb+=/chi_wave
+actions.rotation_chp_dfb+=/chi_burst
+actions.rotation_chp_dfb+=/celestial_brew
+
+# Name: Fallback
+actions.rotation_fallback+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
+actions.rotation_fallback+=/keg_smash
+actions.rotation_fallback+=/breath_of_fire,if=talent.breath_of_fire.enabled
+actions.rotation_fallback+=/blackout_kick
+actions.rotation_fallback+=/exploding_keg,if=talent.exploding_keg.enabled
+actions.rotation_fallback+=/black_ox_brew,if=$(etks)&talent.black_ox_brew.enabled
+actions.rotation_fallback+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
+actions.rotation_fallback+=/spinning_crane_kick,if=$(etks)
+actions.rotation_fallback+=/celestial_brew,if=!buff.blackout_combo.up&talent.celestial_brew.enabled
+actions.rotation_fallback+=/chi_wave,if=talent.chi_wave.enabled
+actions.rotation_fallback+=/chi_burst,if=talent.chi_burst.enabled
+
+# # Name: Blackout Combo Celestial Flames Charred Passions
+# # Note: THIS IS VERY CURSED, PROBABLY SHOULDN'T PLAY THIS
+
+# # 3 phases:
+# #   1. pre-CFl proc
+# #   2. prepping combo
+# #   3. CFl applied
+
+# actions.rotation_blackout_combo_celestial_flames_chp+=/variable,op=set,name=bof_status,value=1,if=prev.breath_of_fire&buff.celestial_flames.up
+# actions.rotation_blackout_combo_celestial_flames_chp+=/variable,name=boc_count,op=add,value=1,if=prev.blackout_kick
+# actions.rotation_blackout_combo_celestial_flames_chp+=/cancel_buff,name=celestial_flames,if=variable.bof_status=1
+# # get celestial flames
+# actions.rotation_blackout_combo_celestial_flames_chp+=/purifying_brew,if=variable.bof_status!=1&!(buff.celestial_flames.up|buff.blackout_combo.up)
+# # once got, get a bof
+# actions.rotation_blackout_combo_celestial_flames_chp+=/keg_smash,if=variable.bof_status!=1&cooldown.breath_of_fire.remains>1
+# # once got, bok insta if boc not up
+# actions.rotation_blackout_combo_celestial_flames_chp+=/blackout_kick,if=variable.bof_status!=1&buff.celestial_flames.up&!buff.blackout_combo.up
+# # once got, slam that bof and we're off to the races
+# actions.rotation_blackout_combo_celestial_flames_chp+=/breath_of_fire,if=variable.bof_status!=1&buff.celestial_flames.up&buff.blackout_combo.up
+
+# # normal rotation stuff
+# actions.rotation_blackout_combo_celestial_flames_chp+=/purifying_brew,if=variable.bof_status=1
+# actions.rotation_blackout_combo_celestial_flames_chp+=/keg_smash,if=buff.charred_passions.remains<2
+
+# # normal bof if alignment has not yet occurred
+# # actions.rotation_blackout_combo_celestial_flames_chp+=/breath_of_fire,if=buff.charred_passions.remains<1&variable.bof_status!=1
+# actions.rotation_blackout_combo_celestial_flames_chp+=/breath_of_fire,no_bof_hit=1,if=buff.charred_passions.remains<1&variable.bof_status=1
+# actions.rotation_blackout_combo_celestial_flames_chp+=/rising_sun_kick
+# actions.rotation_blackout_combo_celestial_flames_chp+=/blackout_kick
+# actions.rotation_blackout_combo_celestial_flames_chp+=/keg_smash
+# actions.rotation_blackout_combo_celestial_flames_chp+=/spinning_crane_kick,if=(energy+energy.regen*(buff.charred_passions.remains+execute_time-1))>=65
 
 #########
 # ENEMY #
@@ -242,15 +387,13 @@ actions=auto_attack,damage=400000,range=100,attack_speed=1.50
 # https://www.wowhead.com/talent-calc/monk/brewmaster/DAOUEEGJFUZVFJIIEBBOVWBEEVRRUUgVRRDUUQ
 # profileset.configuration3+=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1IAAAApRKJRiESIJJJpkgDQJRSapVC
 
-$(tp)=actions.rotation+=/tiger_palm,if=$(etks)
-$(sck)=actions.rotation+=/spinning_crane_kick,if=$(etks)
-
 $(chp)=class_talents=101465:1/101466:0
 $(dfb)=class_talents=101465:0/101466:1
 
-# desired_targets=k
-
 # tp v sck x dfb v chp x desired_targets=1..20
+
+$(tp)=actions.rotation+=/tiger_palm,if=$(etks)
+$(sck)=actions.rotation+=/spinning_crane_kick,if=$(etks)
 
 # # tpdfb
 # m1\n20|profileset.tpdfb%02d+=$(dfb)\nprofileset.tpdfb%02d+=desired_targets=%d\nprofileset.tpdfb%02d+=$(tp)\n
@@ -267,3 +410,5 @@ $(dfb)=class_talents=101465:0/101466:1
 # m1\n8|profileset.dfb%02d+=$(dfb)\nprofileset.tpdfb%02d+=desired_targets=%d\n
 # # chp
 # m1\n8|profileset.chp%02d+=$(chp)\nprofileset.tpchp%02d+=desired_targets=%d\n
+
+# m9(% x 4)|%02d
