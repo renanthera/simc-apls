@@ -8,10 +8,10 @@ $(name)=brm
 threads=48
 iterations=100000
 target_error=0.5
-desired_targets=20
-ptr=1
+desired_targets=1
 # debug=1
 # log=1
+# ptr=1
 
 max_time=300
 
@@ -31,6 +31,8 @@ spec=brewmaster
 # talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkSLCAAAQakSSkIhESSSSKJ4AIEplWJA
 # 2
 talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkWLCAAAQakSSkIhESSSSKJ4AIEplWJA
+# 3
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1IAAAApRKJRiESIJJJpkgDQJRSapVC
 
 race=vulpera
 
@@ -121,8 +123,10 @@ actions+=/call_action_list,name=rotation
 actions.cooldowns_niuzao_woo+=/weapons_of_order,if=talent.weapons_of_order.enabled
 actions.cooldowns_niuzao_woo+=/invoke_niuzao_the_black_ox,if=buff.weapons_of_order.remains<=16&talent.weapons_of_order.enabled
 actions.cooldowns_niuzao_woo+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
-actions.cooldowns_niuzao_woo+=/purifying_brew,if=stagger.amounttototalpct>=0.7&!buff.blackout_combo.up
-actions.cooldowns_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.remains_expected<5&!buff.blackout_combo.up
+actions.cooldowns_niuzao_woo+=/purifying_brew,if=stagger.amounttototalpct>=0.7
+actions.cooldowns_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.remains_expected<5
+# actions.cooldowns_niuzao_woo+=/purifying_brew,if=stagger.amounttototalpct>=0.7&!buff.blackout_combo.up
+# actions.cooldowns_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.remains_expected<5&!buff.blackout_combo.up
 
 # magic numbers being used in Improved Niuzao + [Weapons of Order / Call to Arms]
 # important tweakables
@@ -193,37 +197,31 @@ actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=cooldown.purifying_bre
 # ROTATIONS #
 #############
 
+# after latest bugfixes:
+# 1t: tp
+# 2t+: sck
+
+# 1t: dfb
+# 2t: chp
+# 3t: dfb
+
 $(etks)=energy+energy.regen*(cooldown.keg_smash.remains+execute_time)>=65
 
+actions.rotation+=/breath_of_fire,if=talent.charred_passions.enabled&buff.charred_passions.remains<1.5|talent.dragonfire_brew.enabled
 actions.rotation+=/blackout_kick
-actions.rotation+=/breath_of_fire
 actions.rotation+=/keg_smash
 actions.rotation+=/rising_sun_kick
-actions.rotation+=/spinning_crane_kick
-
-# actions.rotation_one+=/blackout_kick
-# actions.rotation_one+=/breath_of_fire
-# actions.rotation_one+=/keg_smash
-# actions.rotation_one+=/rising_sun_kick
-# actions.rotation_one+=/tiger_palm,if=$(etks)
-# actions.rotation_one+=/chi_wave
-# actions.rotation_one+=/celestial_brew
-
-# actions.rotation_two+=/blackout_kick
-# actions.rotation_two+=/breath_of_fire,if=buff.charred_passions.remains<1.5
-# actions.rotation_two+=/keg_smash
-# actions.rotation_two+=/rising_sun_kick
-# actions.rotation_two+=/spinning_crane_kick,if=$(etks)
-# actions.rotation_two+=/tiger_palm,if=$(etks)
-# actions.rotation_two+=/chi_wave
-# actions.rotation_two+=/celestial_brew
+actions.rotation+=/spinning_crane_kick,if=$(etks)&active_enemies>1
+actions.rotation+=/tiger_palm,if=$(etks)&active_enemies=1
+actions.rotation+=/chi_wave
+actions.rotation+=/celestial_brew
 
 #########
 # ENEMY #
 #########
 
 enemy=PunchyKicky
-actions=auto_attack,damage=196000,range=100,attack_speed=1.50
+actions=auto_attack,damage=400000,range=100,attack_speed=1.50
 
 #######################
 # TALENTS FOR TESTING #
@@ -240,21 +238,19 @@ actions=auto_attack,damage=196000,range=100,attack_speed=1.50
 # https://www.wowhead.com/talent-calc/monk/brewmaster/DAOUEEGJFUZVFJIIEBBOVWBEEVRRUWIURQDUUQ
 # profileset.configuration2+=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQShSLJJgkkWLCAAAQakSSkIhESSSSKJ4AIEplWJA
 
-# profileset.tp+=actions.rotation_two+=/tiger_palm,if=$(etks)
-# profileset.sck+=actions.rotation_two+=/spinning_crane_kick,if=$(etks)
+# 3 - SD;SBT;Salsal;BnW;LB;FP;ChP;WWtO;CS;BDB;NiuR2;EK;WoO;BB;CtA
+# https://www.wowhead.com/talent-calc/monk/brewmaster/DAOUEEGJFUZVFJIIEBBOVWBEEVRRUUgVRRDUUQ
+# profileset.configuration3+=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkUo0SSCIJp1IAAAApRKJRiESIJJJpkgDQJRSapVC
 
 $(tp)=actions.rotation+=/tiger_palm,if=$(etks)
 $(sck)=actions.rotation+=/spinning_crane_kick,if=$(etks)
 
-$(chp)=class_talents=101466:1/101467:0
-$(dfb)=class_talents=101466:0/101467:1
+$(chp)=class_talents=101465:1/101466:0
+$(dfb)=class_talents=101465:0/101466:1
 
 # desired_targets=k
 
-# tp v sck
-# dfb v chp
-# varying target counts
-# tp dfb, sck dfb, tp chp, sck chp
+# tp v sck x dfb v chp x desired_targets=1..20
 
 # # tpdfb
 # m1\n20|profileset.tpdfb%02d+=$(dfb)\nprofileset.tpdfb%02d+=desired_targets=%d\nprofileset.tpdfb%02d+=$(tp)\n
@@ -262,5 +258,12 @@ $(dfb)=class_talents=101466:0/101467:1
 # m1\n20|profileset.sckdfb%02d+=$(dfb)\nprofileset.sckdfb%02d+=desired_targets=%d\nprofileset.sckdfb%02d+=$(sck)\n
 # # tpchp
 # m1\n20|profileset.tpchp%02d+=$(chp)\nprofileset.tpchp%02d+=desired_targets=%d\nprofileset.tpchp%02d+=$(tp)\n
-# sckchp
+# # sckchp
 # m1\n20|profileset.sckchp%02d+=$(chp)\nprofileset.sckchp%02d+=desired_targets=%d\nprofileset.sckchp%02d+=$(sck)\n
+
+# dfb v chp x desired_targets=1..20
+
+# # dfb
+# m1\n8|profileset.dfb%02d+=$(dfb)\nprofileset.tpdfb%02d+=desired_targets=%d\n
+# # chp
+# m1\n8|profileset.chp%02d+=$(chp)\nprofileset.tpchp%02d+=desired_targets=%d\n
