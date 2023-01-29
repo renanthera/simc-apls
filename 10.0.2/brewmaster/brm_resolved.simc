@@ -217,8 +217,8 @@ actions.rotation_chp_dfb+=/black_ox_brew,if=energy+energy.regen*(variable.time_t
 actions.rotation_chp_dfb+=/rising_sun_kick
 actions.rotation_chp_dfb+=/spinning_crane_kick,if=energy+energy.regen*(cooldown.keg_smash.remains+execute_time)>=65&active_enemies>1
 actions.rotation_chp_dfb+=/tiger_palm,if=energy+energy.regen*(cooldown.keg_smash.remains+execute_time)>=65&active_enemies=1
-actions.rotation_chp_dfb+=/chi_wave
-actions.rotation_chp_dfb+=/chi_burst
+actions.rotation_chp_dfb+=/chi_wave,if=talent.chi_wave.enabled
+actions.rotation_chp_dfb+=/chi_burst,if=talent.chi_burst.enabled
 actions.rotation_chp_dfb+=/celestial_brew
 
 # Name: Fallback
