@@ -5,9 +5,9 @@
 ##################
 
 # maximize_reporting=1
-$(name)=brm_2
+$(name)=brm_1
 threads=48
-profileset_work_threads=8
+profileset_work_threads=24
 iterations=100000
 target_error=0.05
 desired_targets=1
@@ -19,10 +19,10 @@ desired_targets=1
 vary_combat_length=0.0
 
 # dps_plot_stat=crit,haste,mastery,vers
-dps_plot_stat=haste
-dps_plot_points=250
-dps_plot_step=20
-dps_plot_iterations=100000
+# dps_plot_stat=haste
+# dps_plot_points=250
+# dps_plot_step=20
+# dps_plot_iterations=100000
 
 max_time=300
 
@@ -41,6 +41,7 @@ spec=brewmaster
 
 talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAShWJJJQSSpRAAAASjUSiEJkQSSSSJBHgWkIt0KhA
 # spec_talents+=/101456:0
+# spec_talents+=/101466:0/101465:1
 
 #############################
 # BASE CHARACTER PARAMETERS #
@@ -108,18 +109,18 @@ actions+=/call_action_list,name=cooldowns_niuzao_woo,if=$(niuzao_score)<=1
 # ROTATION SELECTION PRIORITY #
 ###############################
 
-$(count)=3
+$(count)=4
 # Priority Order:
-# 1. BoC
-#    a. No FoM | FoM High Haste
-#    b. FoM
-# 2. ChP | DfB Salsal
-# 3. Fallback
+# 1. BoC DfB
+# 2. DfB
+# 3. ChP
+# 4. Fallback
 # TODO: BoC CFl
 
 actions.precombat+=/variable,op=set,name=rotation_selection,value=0
-actions.precombat+=/variable,op=set,name=rotation_selection,value=1,if=(talent.charred_passions.enabled|talent.dragonfire_brew.enabled)&talent.salsalabims_strength.enabled
-actions.precombat+=/variable,op=set,name=rotation_selection,value=2,if=(talent.charred_passions.enabled|talent.dragonfire_brew.enabled)&talent.salsalabims_strength.enabled&talent.blackout_combo.enabled
+actions.precombat+=/variable,op=set,name=rotation_selection,value=1,if=talent.charred_passions.enabled&talent.salsalabims_strength.enabled
+actions.precombat+=/variable,op=set,name=rotation_selection,value=2,if=talent.dragonfire_brew.enabled&talent.salsalabims_strength.enabled
+actions.precombat+=/variable,op=set,name=rotation_selection,value=3,if=talent.dragonfire_brew.enabled&talent.salsalabims_strength.enabled&talent.blackout_combo.enabled
 
 actions.precombat+=/variable,op=set,name=rotation_selection,value=$(count)-variable.rotation_selection
 
@@ -127,9 +128,10 @@ actions.precombat+=/variable,op=set,name=rotation_selection,value=$(count)-varia
 # ROTATION APLS #
 #################
 
-actions+=/call_action_list,name=rotation_boc,if=variable.rotation_selection=1
-actions+=/call_action_list,name=rotation_chp_dfb,if=variable.rotation_selection=2
-actions+=/call_action_list,name=rotation_fallback,if=variable.rotation_selection=3
+actions+=/call_action_list,name=rotation_boc_dfb,if=variable.rotation_selection=1
+actions+=/call_action_list,name=rotation_dfb,if=variable.rotation_selection=2
+actions+=/call_action_list,name=rotation_chp,if=variable.rotation_selection=3
+actions+=/call_action_list,name=rotation_fallback,if=variable.rotation_selection=4
 
 #################
 # DPS COOLDOWNS #
@@ -190,15 +192,12 @@ $(niu_window_remains)=$(total_time_for_niu_stomps)-time+action.invoke_niuzao_the
 # Name: Improved Niuzao + Weapons of Order
 actions.cooldowns_improved_niuzao_woo+=/variable,name=pb_in_window,op=set,value=floor(cooldown.purifying_brew.charges_fractional+($(total_time_for_niu_stomps))%cooldown.purifying_brew.duration%$(brew_cdr)),if=prev.invoke_niuzao_the_black_ox
 actions.cooldowns_improved_niuzao_woo+=/variable,name=pb_in_window,op=sub,value=1,if=prev.purifying_brew&$(niu_window)
-
-actions.cooldowns_improved_niuzao_woo+=/exploding_keg,if=buff.bonedust_brew.up&debuff.weapons_of_order_debuff.stack>3
-actions.cooldowns_improved_niuzao_woo+=/exploding_keg,if=buff.bonedust_brew.up&cooldown.weapons_of_order.remains>40
-actions.cooldowns_improved_niuzao_woo+=/bonedust_brew,if=cooldown.exploding_keg.remains<7&!buff.bonedust_brew.up
-actions.cooldowns_improved_niuzao_woo+=/bonedust_brew,if=cooldown.exploding_keg.remains>40&!buff.bonedust_brew.up
-
 actions.cooldowns_improved_niuzao_woo+=/purifying_brew,if=(time-action.purifying_brew.last_used>=$(niu_window_remains)%variable.pb_in_window&$(niu_window))
 actions.cooldowns_improved_niuzao_woo+=/purifying_brew,use_off_gcd=1,if=(variable.pb_in_window=0&$(niu_window_remains)<1&$(niu_window_remains)>0)
 actions.cooldowns_improved_niuzao_woo+=/weapons_of_order
+actions.cooldowns_improved_niuzao_woo+=/bonedust_brew,if=!buff.bonedust_brew.up&debuff.weapons_of_order_debuff.stack=4
+actions.cooldowns_improved_niuzao_woo+=/bonedust_brew,if=!buff.bonedust_brew.up&!buff.weapons_of_order.up&cooldown.weapons_of_order.remains>10
+actions.cooldowns_improved_niuzao_woo+=/exploding_keg,if=buff.bonedust_brew.up
 actions.cooldowns_improved_niuzao_woo+=/purifying_brew,if=cooldown.invoke_niuzao_the_black_ox.remains<=$(pre_pb_wiggle)&time-action.purifying_brew.last_used>=$(pre_pb_wiggle)+cooldown.invoke_niuzao_the_black_ox.remains
 actions.cooldowns_improved_niuzao_woo+=/invoke_niuzao_the_black_ox,if=time-action.purifying_brew.last_used<=5
 actions.cooldowns_improved_niuzao_woo+=/purifying_brew,if=cooldown.purifying_brew.full_recharge_time*$(excess_pb_multiplier)<=cooldown.invoke_niuzao_the_black_ox.remains-$(pre_pb_wiggle)
@@ -207,17 +206,14 @@ actions.cooldowns_improved_niuzao_woo+=/purifying_brew,if=cooldown.purifying_bre
 actions.cooldowns_improved_niuzao_cta+=/variable,name=pb_in_window,op=set,value=floor(cooldown.purifying_brew.charges_fractional+($(total_time_for_cta_stomps))%cooldown.purifying_brew.duration%$(brew_cdr)),if=prev.weapons_of_order
 actions.cooldowns_improved_niuzao_cta+=/variable,name=pb_in_window,op=set,value=floor(cooldown.purifying_brew.charges_fractional+($(total_time_for_niu_stomps))%cooldown.purifying_brew.duration%$(brew_cdr)),if=prev.invoke_niuzao_the_black_ox
 actions.cooldowns_improved_niuzao_cta+=/variable,name=pb_in_window,op=sub,value=1,if=prev.purifying_brew&($(cta_window)|$(niu_window))
-
-actions.cooldowns_improved_niuzao_cta+=/exploding_keg,if=buff.bonedust_brew.up&debuff.weapons_of_order_debuff.stack>3
-actions.cooldowns_improved_niuzao_cta+=/exploding_keg,if=buff.bonedust_brew.up&cooldown.weapons_of_order.remains>40
-actions.cooldowns_improved_niuzao_cta+=/bonedust_brew,if=cooldown.exploding_keg.remains<7&!buff.bonedust_brew.up
-actions.cooldowns_improved_niuzao_cta+=/bonedust_brew,if=cooldown.exploding_keg.remains>40&!buff.bonedust_brew.up
-
 actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=(time-action.purifying_brew.last_used>=$(cta_window_remains)%variable.pb_in_window&$(cta_window))
 actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=(time-action.purifying_brew.last_used>=$(niu_window_remains)%variable.pb_in_window&$(niu_window))
 actions.cooldowns_improved_niuzao_cta+=/purifying_brew,use_off_gcd=1,if=(variable.pb_in_window=0&$(niu_window_remains)<1&$(niu_window_remains)>0)
 actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=cooldown.weapons_of_order.remains<=$(pre_pb_wiggle)&time-action.purifying_brew.last_used>=$(pre_pb_wiggle)+cooldown.weapons_of_order.remains
 actions.cooldowns_improved_niuzao_cta+=/weapons_of_order,if=time-action.purifying_brew.last_used<=5
+actions.cooldowns_improved_niuzao_cta+=/bonedust_brew,if=!buff.bonedust_brew.up&debuff.weapons_of_order_debuff.stack=4
+actions.cooldowns_improved_niuzao_cta+=/bonedust_brew,if=!buff.bonedust_brew.up&!buff.weapons_of_order.up&cooldown.weapons_of_order.remains>10
+actions.cooldowns_improved_niuzao_cta+=/exploding_keg,if=buff.bonedust_brew.up
 actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=cooldown.invoke_niuzao_the_black_ox.remains<=$(pre_pb_wiggle)&time-action.purifying_brew.last_used>=$(pre_pb_wiggle)+cooldown.invoke_niuzao_the_black_ox.remains&buff.weapons_of_order.remains<=$(niuzao_delay)
 actions.cooldowns_improved_niuzao_cta+=/invoke_niuzao_the_black_ox,if=buff.weapons_of_order.remains<=$(niuzao_delay)&action.purifying_brew.last_used>action.weapons_of_order.last_used+$(total_time_for_cta_stomps)
 actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=cooldown.purifying_brew.full_recharge_time*$(excess_pb_multiplier)<=cooldown.weapons_of_order.remains-$(pre_pb_wiggle)&cooldown.purifying_brew.full_recharge_time*$(excess_pb_multiplier)<=cooldown.invoke_niuzao_the_black_ox.remains-$(pre_pb_wiggle)
@@ -228,13 +224,6 @@ actions.cooldowns_improved_niuzao_cta+=/purifying_brew,if=cooldown.purifying_bre
 
 # included abilities:
 # blackout kick, rising sun kick, keg smash, breath of fire, exploding keg, rushing jade wind, black ox brew, spinning crane kick, celestial brew, chi wave, chi burst
-
-# after latest bugfixes:
-# 1t: tp
-# 2t+: sck
-# 1t: dfb
-# 2t: chp
-# 3t: dfb
 
 $(etks)=energy+energy.regen*(cooldown.keg_smash.remains+execute_time)>=65
 
@@ -248,32 +237,45 @@ $(ts)=energy+energy.regen*(cooldown.keg_smash.full_recharge_time*($(v)-cooldown.
 $(sck)=actions.rotation_boc+=/spinning_crane_kick,if=$(ts)>=65
 $(tp-)=actions.rotation_boc+=/tiger_palm,if=$(ts)>=65
 
-actions.rotation_boc+=/blackout_kick
-actions.rotation_boc+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
-actions.rotation_boc+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled&buff.rushing_jade_wind.remains<2
-actions.rotation_boc+=/breath_of_fire,if=buff.blackout_combo.up
-actions.rotation_boc+=/keg_smash
-actions.rotation_boc+=/black_ox_brew,if=$(ts)>=65&talent.black_ox_brew.enabled
-actions.rotation_boc+=/spinning_crane_kick,if=active_enemies>1&$(ts)>=65
-actions.rotation_boc+=/tiger_palm,if=active_enemies=1&$(ts)>=65
-actions.rotation_boc+=/celestial_brew,if=talent.celestial_brew.enabled&!buff.blackout_combo.up
-actions.rotation_boc+=/chi_wave,if=talent.chi_wave.enabled
-actions.rotation_boc+=/chi_burst,if=talent.chi_burst.enabled
+actions.rotation_boc_dfb+=/blackout_kick
+actions.rotation_boc_dfb+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
+actions.rotation_boc_dfb+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled&buff.rushing_jade_wind.remains<1
+actions.rotation_boc_dfb+=/breath_of_fire,if=buff.blackout_combo.up
+actions.rotation_boc_dfb+=/keg_smash
+actions.rotation_boc_dfb+=/black_ox_brew,if=$(ts)>=65&talent.black_ox_brew.enabled
+actions.rotation_boc_dfb+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
+actions.rotation_boc_dfb+=/spinning_crane_kick,if=active_enemies>1&$(ts)>=65
+actions.rotation_boc_dfb+=/tiger_palm,if=active_enemies=1&$(ts)>=65
+actions.rotation_boc_dfb+=/celestial_brew,if=talent.celestial_brew.enabled&!buff.blackout_combo.up
+actions.rotation_boc_dfb+=/chi_wave,if=talent.chi_wave.enabled
+actions.rotation_boc_dfb+=/chi_burst,if=talent.chi_burst.enabled
 
-# Name: ChP or DFB, no BoC
-actions.rotation_chp_dfb+=/breath_of_fire,if=talent.charred_passions.enabled&buff.charred_passions.remains<1.5|talent.dragonfire_brew.enabled
-actions.rotation_chp_dfb+=/rushing_jade_wind,if=buff.rushing_jade_wind.remains<1&talent.rushing_jade_wind.enabled
-actions.rotation_chp_dfb+=/blackout_kick
-actions.rotation_chp_dfb+=/keg_smash
-actions.rotation_chp_dfb+=/black_ox_brew,if=$(etks)>=65&talent.black_ox_brew.enabled
-actions.rotation_chp_dfb+=/rising_sun_kick
-actions.rotation_chp_dfb+=/spinning_crane_kick,if=$(etks)&active_enemies>1
-actions.rotation_chp_dfb+=/tiger_palm,if=$(etks)&active_enemies=1
-actions.rotation_chp_dfb+=/chi_wave,if=talent.chi_wave.enabled
-actions.rotation_chp_dfb+=/chi_burst,if=talent.chi_burst.enabled
-actions.rotation_chp_dfb+=/celestial_brew
+actions.rotation_dfb+=/blackout_kick
+actions.rotation_dfb+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
+actions.rotation_dfb+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled&buff.rushing_jade_wind.remains<1
+actions.rotation_dfb+=/breath_of_fire
+actions.rotation_dfb+=/keg_smash
+actions.rotation_dfb+=/black_ox_brew,if=$(ts)>=65&talent.black_ox_brew.enabled
+actions.rotation_dfb+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
+actions.rotation_dfb+=/spinning_crane_kick,if=active_enemies>1&$(ts)>=65
+actions.rotation_dfb+=/tiger_palm,if=active_enemies=1&$(ts)>=65
+actions.rotation_dfb+=/celestial_brew,if=talent.celestial_brew.enabled
+actions.rotation_dfb+=/chi_wave,if=talent.chi_wave.enabled
+actions.rotation_dfb+=/chi_burst,if=talent.chi_burst.enabled
 
-# Name: Fallback
+actions.rotation_chp+=/breath_of_fire,if=!buff.charred_passions.up
+actions.rotation_chp+=/blackout_kick
+actions.rotation_chp+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
+actions.rotation_chp+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled&buff.rushing_jade_wind.remains<1
+actions.rotation_chp+=/keg_smash
+actions.rotation_chp+=/black_ox_brew,if=$(ts)>=65&talent.black_ox_brew.enabled
+actions.rotation_chp+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
+actions.rotation_chp+=/spinning_crane_kick,if=active_enemies>1&$(ts)>=65
+actions.rotation_chp+=/tiger_palm,if=active_enemies=1&$(ts)>=65
+actions.rotation_chp+=/celestial_brew,if=talent.celestial_brew.enabled&!buff.blackout_combo.up
+actions.rotation_chp+=/chi_wave,if=talent.chi_wave.enabled
+actions.rotation_chp+=/chi_burst,if=talent.chi_burst.enabled
+
 actions.rotation_fallback+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
 actions.rotation_fallback+=/keg_smash
 actions.rotation_fallback+=/breath_of_fire,if=talent.breath_of_fire.enabled
@@ -344,23 +346,406 @@ $(tp-)=actions.rotation_boc+=/tiger_palm,if=$(ts)>=65
 
 # |cooldown.weapons_of_order.remains+20>=trinket1.duration
 
-# copy=brm_2,brm_1
-# actions.rotation_boc=
-# actions.rotation_boc+=/blackout_kick
-# actions.rotation_boc+=/rising_sun_kick,if=talent.rising_sun_kick.enabled
-# actions.rotation_boc+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled&buff.rushing_jade_wind.remains<2
-# actions.rotation_boc+=/breath_of_fire,if=buff.blackout_combo.up
-# actions.rotation_boc+=/keg_smash
-# actions.rotation_boc+=/black_ox_brew,if=$(ts)>=65&talent.black_ox_brew.enabled
-# actions.rotation_boc+=/spinning_crane_kick,if=active_enemies>1&$(ts)>=65
-# actions.rotation_boc+=/tiger_palm,if=active_enemies=1&$(ts)>=65
-# actions.rotation_boc+=/celestial_brew,if=talent.celestial_brew.enabled&!buff.blackout_combo.up
-# actions.rotation_boc+=/chi_wave,if=talent.chi_wave.enabled
-# actions.rotation_boc+=/chi_burst,if=talent.chi_burst.enabled
-
-
+# copy=brm_chp,brm_1
+# spec_talents+=/101466:0/101465:1
 
 $(sck)=actions.rotation_boc+=/spinning_crane_kick,if=$(ts)>=65
 $(tp-)=actions.rotation_boc+=/tiger_palm,if=$(ts)>=65
 
 # m1\n12|profileset.tp-dfblb-sd-%02d+=desired_targets=%02d\nprofileset.tp-dfblb-sd-%02d+=$(dfb)\nprofileset.tp-dfblb-sd-%02d+=$(lb-)\nprofileset.tp-dfblb-sd-%02d+=$(sd-)\nprofileset.tp-dfblb-sd-%02d+=$(tp-)\nprofileset.tp-dfblb-rjw%02d+=desired_targets=%02d\nprofileset.tp-dfblb-rjw%02d+=$(dfb)\nprofileset.tp-dfblb-rjw%02d+=$(lb-)\nprofileset.tp-dfblb-rjw%02d+=$(rjw)\nprofileset.tp-dfblb-rjw%02d+=$(tp-)\nprofileset.tp-dfbtonsd-%02d+=desired_targets=%02d\nprofileset.tp-dfbtonsd-%02d+=$(dfb)\nprofileset.tp-dfbtonsd-%02d+=$(ton)\nprofileset.tp-dfbtonsd-%02d+=$(sd-)\nprofileset.tp-dfbtonsd-%02d+=$(tp-)\nprofileset.tp-dfbtonrjw%02d+=desired_targets=%02d\nprofileset.tp-dfbtonrjw%02d+=$(dfb)\nprofileset.tp-dfbtonrjw%02d+=$(ton)\nprofileset.tp-dfbtonrjw%02d+=$(rjw)\nprofileset.tp-dfbtonrjw%02d+=$(tp-)\nprofileset.tp-chplb-sd-%02d+=desired_targets=%02d\nprofileset.tp-chplb-sd-%02d+=$(chp)\nprofileset.tp-chplb-sd-%02d+=$(lb-)\nprofileset.tp-chplb-sd-%02d+=$(sd-)\nprofileset.tp-chplb-sd-%02d+=$(tp-)\nprofileset.tp-chplb-rjw%02d+=desired_targets=%02d\nprofileset.tp-chplb-rjw%02d+=$(chp)\nprofileset.tp-chplb-rjw%02d+=$(lb-)\nprofileset.tp-chplb-rjw%02d+=$(rjw)\nprofileset.tp-chplb-rjw%02d+=$(tp-)\nprofileset.tp-chptonsd-%02d+=desired_targets=%02d\nprofileset.tp-chptonsd-%02d+=$(chp)\nprofileset.tp-chptonsd-%02d+=$(ton)\nprofileset.tp-chptonsd-%02d+=$(sd-)\nprofileset.tp-chptonsd-%02d+=$(tp-)\nprofileset.tp-chptonrjw%02d+=desired_targets=%02d\nprofileset.tp-chptonrjw%02d+=$(chp)\nprofileset.tp-chptonrjw%02d+=$(ton)\nprofileset.tp-chptonrjw%02d+=$(rjw)\nprofileset.tp-chptonrjw%02d+=$(tp-)\nprofileset.sckdfblb-sd-%02d+=desired_targets=%02d\nprofileset.sckdfblb-sd-%02d+=$(dfb)\nprofileset.sckdfblb-sd-%02d+=$(lb-)\nprofileset.sckdfblb-sd-%02d+=$(sd-)\nprofileset.sckdfblb-sd-%02d+=$(sck)\nprofileset.sckdfblb-rjw%02d+=desired_targets=%02d\nprofileset.sckdfblb-rjw%02d+=$(dfb)\nprofileset.sckdfblb-rjw%02d+=$(lb-)\nprofileset.sckdfblb-rjw%02d+=$(rjw)\nprofileset.sckdfblb-rjw%02d+=$(sck)\nprofileset.sckdfbtonsd-%02d+=desired_targets=%02d\nprofileset.sckdfbtonsd-%02d+=$(dfb)\nprofileset.sckdfbtonsd-%02d+=$(ton)\nprofileset.sckdfbtonsd-%02d+=$(sd-)\nprofileset.sckdfbtonsd-%02d+=$(sck)\nprofileset.sckdfbtonrjw%02d+=desired_targets=%02d\nprofileset.sckdfbtonrjw%02d+=$(dfb)\nprofileset.sckdfbtonrjw%02d+=$(ton)\nprofileset.sckdfbtonrjw%02d+=$(rjw)\nprofileset.sckdfbtonrjw%02d+=$(sck)\nprofileset.sckchplb-sd-%02d+=desired_targets=%02d\nprofileset.sckchplb-sd-%02d+=$(chp)\nprofileset.sckchplb-sd-%02d+=$(lb-)\nprofileset.sckchplb-sd-%02d+=$(sd-)\nprofileset.sckchplb-sd-%02d+=$(sck)\nprofileset.sckchplb-rjw%02d+=desired_targets=%02d\nprofileset.sckchplb-rjw%02d+=$(chp)\nprofileset.sckchplb-rjw%02d+=$(lb-)\nprofileset.sckchplb-rjw%02d+=$(rjw)\nprofileset.sckchplb-rjw%02d+=$(sck)\nprofileset.sckchptonsd-%02d+=desired_targets=%02d\nprofileset.sckchptonsd-%02d+=$(chp)\nprofileset.sckchptonsd-%02d+=$(ton)\nprofileset.sckchptonsd-%02d+=$(sd-)\nprofileset.sckchptonsd-%02d+=$(sck)\nprofileset.sckchptonrjw%02d+=desired_targets=%02d\nprofileset.sckchptonrjw%02d+=$(chp)\nprofileset.sckchptonrjw%02d+=$(ton)\nprofileset.sckchptonrjw%02d+=$(rjw)\nprofileset.sckchptonrjw%02d+=$(sck)
+
+profileset.dfblb-sd-01+=desired_targets=01
+profileset.dfblb-sd-01+=$(dfb)
+profileset.dfblb-sd-01+=$(lb-)
+profileset.dfblb-sd-01+=$(sd-)
+profileset.dfblb-rjw01+=desired_targets=01
+profileset.dfblb-rjw01+=$(dfb)
+profileset.dfblb-rjw01+=$(lb-)
+profileset.dfblb-rjw01+=$(rjw)
+profileset.dfbtonsd-01+=desired_targets=01
+profileset.dfbtonsd-01+=$(dfb)
+profileset.dfbtonsd-01+=$(ton)
+profileset.dfbtonsd-01+=$(sd-)
+profileset.dfbtonrjw01+=desired_targets=01
+profileset.dfbtonrjw01+=$(dfb)
+profileset.dfbtonrjw01+=$(ton)
+profileset.dfbtonrjw01+=$(rjw)
+profileset.chplb-sd-01+=desired_targets=01
+profileset.chplb-sd-01+=$(chp)
+profileset.chplb-sd-01+=$(lb-)
+profileset.chplb-sd-01+=$(sd-)
+profileset.chplb-rjw01+=desired_targets=01
+profileset.chplb-rjw01+=$(chp)
+profileset.chplb-rjw01+=$(lb-)
+profileset.chplb-rjw01+=$(rjw)
+profileset.chptonsd-01+=desired_targets=01
+profileset.chptonsd-01+=$(chp)
+profileset.chptonsd-01+=$(ton)
+profileset.chptonsd-01+=$(sd-)
+profileset.chptonrjw01+=desired_targets=01
+profileset.chptonrjw01+=$(chp)
+profileset.chptonrjw01+=$(ton)
+profileset.chptonrjw01+=$(rjw)
+
+profileset.dfblb-sd-02+=desired_targets=02
+profileset.dfblb-sd-02+=$(dfb)
+profileset.dfblb-sd-02+=$(lb-)
+profileset.dfblb-sd-02+=$(sd-)
+profileset.dfblb-rjw02+=desired_targets=02
+profileset.dfblb-rjw02+=$(dfb)
+profileset.dfblb-rjw02+=$(lb-)
+profileset.dfblb-rjw02+=$(rjw)
+profileset.dfbtonsd-02+=desired_targets=02
+profileset.dfbtonsd-02+=$(dfb)
+profileset.dfbtonsd-02+=$(ton)
+profileset.dfbtonsd-02+=$(sd-)
+profileset.dfbtonrjw02+=desired_targets=02
+profileset.dfbtonrjw02+=$(dfb)
+profileset.dfbtonrjw02+=$(ton)
+profileset.dfbtonrjw02+=$(rjw)
+profileset.chplb-sd-02+=desired_targets=02
+profileset.chplb-sd-02+=$(chp)
+profileset.chplb-sd-02+=$(lb-)
+profileset.chplb-sd-02+=$(sd-)
+profileset.chplb-rjw02+=desired_targets=02
+profileset.chplb-rjw02+=$(chp)
+profileset.chplb-rjw02+=$(lb-)
+profileset.chplb-rjw02+=$(rjw)
+profileset.chptonsd-02+=desired_targets=02
+profileset.chptonsd-02+=$(chp)
+profileset.chptonsd-02+=$(ton)
+profileset.chptonsd-02+=$(sd-)
+profileset.chptonrjw02+=desired_targets=02
+profileset.chptonrjw02+=$(chp)
+profileset.chptonrjw02+=$(ton)
+profileset.chptonrjw02+=$(rjw)
+
+profileset.dfblb-sd-03+=desired_targets=03
+profileset.dfblb-sd-03+=$(dfb)
+profileset.dfblb-sd-03+=$(lb-)
+profileset.dfblb-sd-03+=$(sd-)
+profileset.dfblb-rjw03+=desired_targets=03
+profileset.dfblb-rjw03+=$(dfb)
+profileset.dfblb-rjw03+=$(lb-)
+profileset.dfblb-rjw03+=$(rjw)
+profileset.dfbtonsd-03+=desired_targets=03
+profileset.dfbtonsd-03+=$(dfb)
+profileset.dfbtonsd-03+=$(ton)
+profileset.dfbtonsd-03+=$(sd-)
+profileset.dfbtonrjw03+=desired_targets=03
+profileset.dfbtonrjw03+=$(dfb)
+profileset.dfbtonrjw03+=$(ton)
+profileset.dfbtonrjw03+=$(rjw)
+profileset.chplb-sd-03+=desired_targets=03
+profileset.chplb-sd-03+=$(chp)
+profileset.chplb-sd-03+=$(lb-)
+profileset.chplb-sd-03+=$(sd-)
+profileset.chplb-rjw03+=desired_targets=03
+profileset.chplb-rjw03+=$(chp)
+profileset.chplb-rjw03+=$(lb-)
+profileset.chplb-rjw03+=$(rjw)
+profileset.chptonsd-03+=desired_targets=03
+profileset.chptonsd-03+=$(chp)
+profileset.chptonsd-03+=$(ton)
+profileset.chptonsd-03+=$(sd-)
+profileset.chptonrjw03+=desired_targets=03
+profileset.chptonrjw03+=$(chp)
+profileset.chptonrjw03+=$(ton)
+profileset.chptonrjw03+=$(rjw)
+
+profileset.dfblb-sd-04+=desired_targets=04
+profileset.dfblb-sd-04+=$(dfb)
+profileset.dfblb-sd-04+=$(lb-)
+profileset.dfblb-sd-04+=$(sd-)
+profileset.dfblb-rjw04+=desired_targets=04
+profileset.dfblb-rjw04+=$(dfb)
+profileset.dfblb-rjw04+=$(lb-)
+profileset.dfblb-rjw04+=$(rjw)
+profileset.dfbtonsd-04+=desired_targets=04
+profileset.dfbtonsd-04+=$(dfb)
+profileset.dfbtonsd-04+=$(ton)
+profileset.dfbtonsd-04+=$(sd-)
+profileset.dfbtonrjw04+=desired_targets=04
+profileset.dfbtonrjw04+=$(dfb)
+profileset.dfbtonrjw04+=$(ton)
+profileset.dfbtonrjw04+=$(rjw)
+profileset.chplb-sd-04+=desired_targets=04
+profileset.chplb-sd-04+=$(chp)
+profileset.chplb-sd-04+=$(lb-)
+profileset.chplb-sd-04+=$(sd-)
+profileset.chplb-rjw04+=desired_targets=04
+profileset.chplb-rjw04+=$(chp)
+profileset.chplb-rjw04+=$(lb-)
+profileset.chplb-rjw04+=$(rjw)
+profileset.chptonsd-04+=desired_targets=04
+profileset.chptonsd-04+=$(chp)
+profileset.chptonsd-04+=$(ton)
+profileset.chptonsd-04+=$(sd-)
+profileset.chptonrjw04+=desired_targets=04
+profileset.chptonrjw04+=$(chp)
+profileset.chptonrjw04+=$(ton)
+profileset.chptonrjw04+=$(rjw)
+
+profileset.dfblb-sd-05+=desired_targets=05
+profileset.dfblb-sd-05+=$(dfb)
+profileset.dfblb-sd-05+=$(lb-)
+profileset.dfblb-sd-05+=$(sd-)
+profileset.dfblb-rjw05+=desired_targets=05
+profileset.dfblb-rjw05+=$(dfb)
+profileset.dfblb-rjw05+=$(lb-)
+profileset.dfblb-rjw05+=$(rjw)
+profileset.dfbtonsd-05+=desired_targets=05
+profileset.dfbtonsd-05+=$(dfb)
+profileset.dfbtonsd-05+=$(ton)
+profileset.dfbtonsd-05+=$(sd-)
+profileset.dfbtonrjw05+=desired_targets=05
+profileset.dfbtonrjw05+=$(dfb)
+profileset.dfbtonrjw05+=$(ton)
+profileset.dfbtonrjw05+=$(rjw)
+profileset.chplb-sd-05+=desired_targets=05
+profileset.chplb-sd-05+=$(chp)
+profileset.chplb-sd-05+=$(lb-)
+profileset.chplb-sd-05+=$(sd-)
+profileset.chplb-rjw05+=desired_targets=05
+profileset.chplb-rjw05+=$(chp)
+profileset.chplb-rjw05+=$(lb-)
+profileset.chplb-rjw05+=$(rjw)
+profileset.chptonsd-05+=desired_targets=05
+profileset.chptonsd-05+=$(chp)
+profileset.chptonsd-05+=$(ton)
+profileset.chptonsd-05+=$(sd-)
+profileset.chptonrjw05+=desired_targets=05
+profileset.chptonrjw05+=$(chp)
+profileset.chptonrjw05+=$(ton)
+profileset.chptonrjw05+=$(rjw)
+
+profileset.dfblb-sd-06+=desired_targets=06
+profileset.dfblb-sd-06+=$(dfb)
+profileset.dfblb-sd-06+=$(lb-)
+profileset.dfblb-sd-06+=$(sd-)
+profileset.dfblb-rjw06+=desired_targets=06
+profileset.dfblb-rjw06+=$(dfb)
+profileset.dfblb-rjw06+=$(lb-)
+profileset.dfblb-rjw06+=$(rjw)
+profileset.dfbtonsd-06+=desired_targets=06
+profileset.dfbtonsd-06+=$(dfb)
+profileset.dfbtonsd-06+=$(ton)
+profileset.dfbtonsd-06+=$(sd-)
+profileset.dfbtonrjw06+=desired_targets=06
+profileset.dfbtonrjw06+=$(dfb)
+profileset.dfbtonrjw06+=$(ton)
+profileset.dfbtonrjw06+=$(rjw)
+profileset.chplb-sd-06+=desired_targets=06
+profileset.chplb-sd-06+=$(chp)
+profileset.chplb-sd-06+=$(lb-)
+profileset.chplb-sd-06+=$(sd-)
+profileset.chplb-rjw06+=desired_targets=06
+profileset.chplb-rjw06+=$(chp)
+profileset.chplb-rjw06+=$(lb-)
+profileset.chplb-rjw06+=$(rjw)
+profileset.chptonsd-06+=desired_targets=06
+profileset.chptonsd-06+=$(chp)
+profileset.chptonsd-06+=$(ton)
+profileset.chptonsd-06+=$(sd-)
+profileset.chptonrjw06+=desired_targets=06
+profileset.chptonrjw06+=$(chp)
+profileset.chptonrjw06+=$(ton)
+profileset.chptonrjw06+=$(rjw)
+
+profileset.dfblb-sd-07+=desired_targets=07
+profileset.dfblb-sd-07+=$(dfb)
+profileset.dfblb-sd-07+=$(lb-)
+profileset.dfblb-sd-07+=$(sd-)
+profileset.dfblb-rjw07+=desired_targets=07
+profileset.dfblb-rjw07+=$(dfb)
+profileset.dfblb-rjw07+=$(lb-)
+profileset.dfblb-rjw07+=$(rjw)
+profileset.dfbtonsd-07+=desired_targets=07
+profileset.dfbtonsd-07+=$(dfb)
+profileset.dfbtonsd-07+=$(ton)
+profileset.dfbtonsd-07+=$(sd-)
+profileset.dfbtonrjw07+=desired_targets=07
+profileset.dfbtonrjw07+=$(dfb)
+profileset.dfbtonrjw07+=$(ton)
+profileset.dfbtonrjw07+=$(rjw)
+profileset.chplb-sd-07+=desired_targets=07
+profileset.chplb-sd-07+=$(chp)
+profileset.chplb-sd-07+=$(lb-)
+profileset.chplb-sd-07+=$(sd-)
+profileset.chplb-rjw07+=desired_targets=07
+profileset.chplb-rjw07+=$(chp)
+profileset.chplb-rjw07+=$(lb-)
+profileset.chplb-rjw07+=$(rjw)
+profileset.chptonsd-07+=desired_targets=07
+profileset.chptonsd-07+=$(chp)
+profileset.chptonsd-07+=$(ton)
+profileset.chptonsd-07+=$(sd-)
+profileset.chptonrjw07+=desired_targets=07
+profileset.chptonrjw07+=$(chp)
+profileset.chptonrjw07+=$(ton)
+profileset.chptonrjw07+=$(rjw)
+
+profileset.dfblb-sd-08+=desired_targets=08
+profileset.dfblb-sd-08+=$(dfb)
+profileset.dfblb-sd-08+=$(lb-)
+profileset.dfblb-sd-08+=$(sd-)
+profileset.dfblb-rjw08+=desired_targets=08
+profileset.dfblb-rjw08+=$(dfb)
+profileset.dfblb-rjw08+=$(lb-)
+profileset.dfblb-rjw08+=$(rjw)
+profileset.dfbtonsd-08+=desired_targets=08
+profileset.dfbtonsd-08+=$(dfb)
+profileset.dfbtonsd-08+=$(ton)
+profileset.dfbtonsd-08+=$(sd-)
+profileset.dfbtonrjw08+=desired_targets=08
+profileset.dfbtonrjw08+=$(dfb)
+profileset.dfbtonrjw08+=$(ton)
+profileset.dfbtonrjw08+=$(rjw)
+profileset.chplb-sd-08+=desired_targets=08
+profileset.chplb-sd-08+=$(chp)
+profileset.chplb-sd-08+=$(lb-)
+profileset.chplb-sd-08+=$(sd-)
+profileset.chplb-rjw08+=desired_targets=08
+profileset.chplb-rjw08+=$(chp)
+profileset.chplb-rjw08+=$(lb-)
+profileset.chplb-rjw08+=$(rjw)
+profileset.chptonsd-08+=desired_targets=08
+profileset.chptonsd-08+=$(chp)
+profileset.chptonsd-08+=$(ton)
+profileset.chptonsd-08+=$(sd-)
+profileset.chptonrjw08+=desired_targets=08
+profileset.chptonrjw08+=$(chp)
+profileset.chptonrjw08+=$(ton)
+profileset.chptonrjw08+=$(rjw)
+
+profileset.dfblb-sd-09+=desired_targets=09
+profileset.dfblb-sd-09+=$(dfb)
+profileset.dfblb-sd-09+=$(lb-)
+profileset.dfblb-sd-09+=$(sd-)
+profileset.dfblb-rjw09+=desired_targets=09
+profileset.dfblb-rjw09+=$(dfb)
+profileset.dfblb-rjw09+=$(lb-)
+profileset.dfblb-rjw09+=$(rjw)
+profileset.dfbtonsd-09+=desired_targets=09
+profileset.dfbtonsd-09+=$(dfb)
+profileset.dfbtonsd-09+=$(ton)
+profileset.dfbtonsd-09+=$(sd-)
+profileset.dfbtonrjw09+=desired_targets=09
+profileset.dfbtonrjw09+=$(dfb)
+profileset.dfbtonrjw09+=$(ton)
+profileset.dfbtonrjw09+=$(rjw)
+profileset.chplb-sd-09+=desired_targets=09
+profileset.chplb-sd-09+=$(chp)
+profileset.chplb-sd-09+=$(lb-)
+profileset.chplb-sd-09+=$(sd-)
+profileset.chplb-rjw09+=desired_targets=09
+profileset.chplb-rjw09+=$(chp)
+profileset.chplb-rjw09+=$(lb-)
+profileset.chplb-rjw09+=$(rjw)
+profileset.chptonsd-09+=desired_targets=09
+profileset.chptonsd-09+=$(chp)
+profileset.chptonsd-09+=$(ton)
+profileset.chptonsd-09+=$(sd-)
+profileset.chptonrjw09+=desired_targets=09
+profileset.chptonrjw09+=$(chp)
+profileset.chptonrjw09+=$(ton)
+profileset.chptonrjw09+=$(rjw)
+
+profileset.dfblb-sd-10+=desired_targets=10
+profileset.dfblb-sd-10+=$(dfb)
+profileset.dfblb-sd-10+=$(lb-)
+profileset.dfblb-sd-10+=$(sd-)
+profileset.dfblb-rjw10+=desired_targets=10
+profileset.dfblb-rjw10+=$(dfb)
+profileset.dfblb-rjw10+=$(lb-)
+profileset.dfblb-rjw10+=$(rjw)
+profileset.dfbtonsd-10+=desired_targets=10
+profileset.dfbtonsd-10+=$(dfb)
+profileset.dfbtonsd-10+=$(ton)
+profileset.dfbtonsd-10+=$(sd-)
+profileset.dfbtonrjw10+=desired_targets=10
+profileset.dfbtonrjw10+=$(dfb)
+profileset.dfbtonrjw10+=$(ton)
+profileset.dfbtonrjw10+=$(rjw)
+profileset.chplb-sd-10+=desired_targets=10
+profileset.chplb-sd-10+=$(chp)
+profileset.chplb-sd-10+=$(lb-)
+profileset.chplb-sd-10+=$(sd-)
+profileset.chplb-rjw10+=desired_targets=10
+profileset.chplb-rjw10+=$(chp)
+profileset.chplb-rjw10+=$(lb-)
+profileset.chplb-rjw10+=$(rjw)
+profileset.chptonsd-10+=desired_targets=10
+profileset.chptonsd-10+=$(chp)
+profileset.chptonsd-10+=$(ton)
+profileset.chptonsd-10+=$(sd-)
+profileset.chptonrjw10+=desired_targets=10
+profileset.chptonrjw10+=$(chp)
+profileset.chptonrjw10+=$(ton)
+profileset.chptonrjw10+=$(rjw)
+
+profileset.dfblb-sd-11+=desired_targets=11
+profileset.dfblb-sd-11+=$(dfb)
+profileset.dfblb-sd-11+=$(lb-)
+profileset.dfblb-sd-11+=$(sd-)
+profileset.dfblb-rjw11+=desired_targets=11
+profileset.dfblb-rjw11+=$(dfb)
+profileset.dfblb-rjw11+=$(lb-)
+profileset.dfblb-rjw11+=$(rjw)
+profileset.dfbtonsd-11+=desired_targets=11
+profileset.dfbtonsd-11+=$(dfb)
+profileset.dfbtonsd-11+=$(ton)
+profileset.dfbtonsd-11+=$(sd-)
+profileset.dfbtonrjw11+=desired_targets=11
+profileset.dfbtonrjw11+=$(dfb)
+profileset.dfbtonrjw11+=$(ton)
+profileset.dfbtonrjw11+=$(rjw)
+profileset.chplb-sd-11+=desired_targets=11
+profileset.chplb-sd-11+=$(chp)
+profileset.chplb-sd-11+=$(lb-)
+profileset.chplb-sd-11+=$(sd-)
+profileset.chplb-rjw11+=desired_targets=11
+profileset.chplb-rjw11+=$(chp)
+profileset.chplb-rjw11+=$(lb-)
+profileset.chplb-rjw11+=$(rjw)
+profileset.chptonsd-11+=desired_targets=11
+profileset.chptonsd-11+=$(chp)
+profileset.chptonsd-11+=$(ton)
+profileset.chptonsd-11+=$(sd-)
+profileset.chptonrjw11+=desired_targets=11
+profileset.chptonrjw11+=$(chp)
+profileset.chptonrjw11+=$(ton)
+profileset.chptonrjw11+=$(rjw)
+
+profileset.dfblb-sd-12+=desired_targets=12
+profileset.dfblb-sd-12+=$(dfb)
+profileset.dfblb-sd-12+=$(lb-)
+profileset.dfblb-sd-12+=$(sd-)
+profileset.dfblb-rjw12+=desired_targets=12
+profileset.dfblb-rjw12+=$(dfb)
+profileset.dfblb-rjw12+=$(lb-)
+profileset.dfblb-rjw12+=$(rjw)
+profileset.dfbtonsd-12+=desired_targets=12
+profileset.dfbtonsd-12+=$(dfb)
+profileset.dfbtonsd-12+=$(ton)
+profileset.dfbtonsd-12+=$(sd-)
+profileset.dfbtonrjw12+=desired_targets=12
+profileset.dfbtonrjw12+=$(dfb)
+profileset.dfbtonrjw12+=$(ton)
+profileset.dfbtonrjw12+=$(rjw)
+profileset.chplb-sd-12+=desired_targets=12
+profileset.chplb-sd-12+=$(chp)
+profileset.chplb-sd-12+=$(lb-)
+profileset.chplb-sd-12+=$(sd-)
+profileset.chplb-rjw12+=desired_targets=12
+profileset.chplb-rjw12+=$(chp)
+profileset.chplb-rjw12+=$(lb-)
+profileset.chplb-rjw12+=$(rjw)
+profileset.chptonsd-12+=desired_targets=12
+profileset.chptonsd-12+=$(chp)
+profileset.chptonsd-12+=$(ton)
+profileset.chptonsd-12+=$(sd-)
+profileset.chptonrjw12+=desired_targets=12
+profileset.chptonrjw12+=$(chp)
+profileset.chptonrjw12+=$(ton)
+profileset.chptonrjw12+=$(rjw)
