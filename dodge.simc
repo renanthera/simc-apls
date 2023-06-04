@@ -1,0 +1,73 @@
+#!./simc
+
+##################
+# SIM PARAMETERS #
+##################
+
+# maximize_reporting=1
+$(name)=brew
+threads=48
+profileset_work_threads=12
+iterations=100000
+target_error=0.05
+desired_targets=1
+# vary_combat_length=0.0
+debug=1
+# log=1
+# ptr=1
+target_level=70
+
+# disable_2_set=29
+# disable_4_set=29
+
+# enable_2_set=30
+# enable_4_set=30
+
+# # bok increased damage
+# override.spell_data=effect.1053877.base_value=50
+# # chance to preserve eb stacks
+# override.spell_data=effect.1072658.base_value=20
+# # leverage %incr and chc
+# override.spell_data=effect.1072670.base_value=10
+# override.spell_data=effect.1072671.base_value=10
+
+# dps_plot_stat=crit,haste,mastery,vers
+# dps_plot_stat=haste
+# dps_plot_points=250
+# dps_plot_step=20
+# dps_plot_iterations=100000
+
+max_time=300
+
+html=$(name).html
+output=$(name).txt
+# output=/dev/null
+
+monk="$(name)"
+level=70
+role=tank
+spec=brewmaster
+position=front
+# race=vulpera
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAAAAShWJJJQSSpRAAAASJSJJSkQCJJJJlEgWkIt0KhA
+
+back=,id=200368,bonus_id=6652/9130/7977/1504,enchant_id=6604,context=35
+chest=,id=200360,bonus_id=7981/6652/8830/1498/8767,enchant_id=6625,context=6
+feet=,id=109787,bonus_id=9130/7977/6652/8822/8818/9144/3306/8767,enchant_id=6607,context=35
+finger1=,id=195480,bonus_id=6652/7981/1498/8767/8780,gem_id=192925,enchant_id=6550,context=6
+finger2=,id=203460,bonus_id=1491,gem_id=204000/204027/204029,enchant_id=6550,context=11
+hands=,id=200362,bonus_id=7981/6652/8829/1498/8767,context=6
+head=,id=193494,bonus_id=8836/8840/8902/8960/7936/8802/8846,context=13
+legs=,id=200364,bonus_id=6652/8827/9130/7977/1504/8767,enchant_id=6490,context=35
+main_hand=,id=195512,bonus_id=6652/7981/1498/8767,enchant_id=6649,context=6
+neck=,id=195502,bonus_id=7981/1498/8767/8784/8782,gem_id=192925/192925/192925,context=6
+off_hand=,id=190507,bonus_id=8836/8840/8902/8802/8846/8795/8796/8960,enchant_id=6648,context=13,crafted_stats=36/32
+shirt=,id=41249
+shoulder=,id=200365,bonus_id=6652/8817/7981/8823/8095/8826/1489,context=6
+tabard=,id=69210,context=14
+trinket1=,id=194308,bonus_id=7981/6652/1498/8767,context=6
+trinket2=,id=137486,bonus_id=7977/6652/9144/8973/3294/8767,context=33
+waist=,id=200366,bonus_id=7937/42/7981/8095/1498,context=6
+wrist=,id=195525,bonus_id=6652/7936/7980/8825/8819/1485/8767,enchant_id=6586,context=5
+
+actions=
