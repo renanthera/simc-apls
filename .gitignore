@@ -2,3 +2,4 @@ simc
 *.html
 *.txt
 *.json
+cache/*
