@@ -4,10 +4,10 @@
 # SIM PARAMETERS #
 ##################
 
-$(name)=apl_2
+$(name)=default
 # maximize_reporting=1
 threads=48
-profileset_work_threads=1
+profileset_work_threads=6
 # iterations=10000
 target_error=0.5
 desired_targets=1
@@ -28,7 +28,7 @@ html=$(name).html
 output=$(name).txt
 # output=/dev/null
 
-monk="$(name)"
+monk="baseline"
 level=70
 role=tank
 spec=brewmaster
