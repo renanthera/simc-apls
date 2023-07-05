@@ -1,3 +1,3 @@
 Repository for simc APLs by yours truly.
 
-APLs are sorted by patch they were initially designed for.
+Good luck, there is no support available for any of this.
