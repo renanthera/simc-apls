@@ -2,4 +2,6 @@ simc
 *.html
 *.txt
 *.json
+*.png
 cache/*
+__pycache__

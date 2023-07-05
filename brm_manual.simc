@@ -18,11 +18,11 @@ desired_targets=1
 ptr=1
 # max_time=300
 
-dps_plot_stat=crit,haste,mastery,vers
-# dps_plot_stat=haste
-dps_plot_points=29
-dps_plot_step=300
-dps_plot_iterations=10000
+# dps_plot_stat=crit,haste,mastery,vers
+# # dps_plot_stat=haste
+# dps_plot_points=29
+# dps_plot_step=300
+# dps_plot_iterations=10000
 
 # override.windfury_totem=0
 
