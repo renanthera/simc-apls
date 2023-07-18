@@ -35,7 +35,8 @@ class Sim:
         self.generate_header()
         self.generate_combinations()
         self.generate_profilesets()
-        self.write_sim()
+        if self.sim_components['parameters']['run_sims']:
+            self.write_sim()
 
     def generate_header(self):
         pattern = re.compile('^([^\s#=])+', re.MULTILINE)

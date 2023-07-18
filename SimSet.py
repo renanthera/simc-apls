@@ -39,11 +39,11 @@ class SimSet:
     write_dir = 'cache/'
     uuid_index = 'uuid-index'
 
-    def __init__(self):
+    def __init__(self, run_sims=True):
         self.sims = []
+        self.compute = run_sims
         self.sim_iter = iter(self.sims)
 
-    # def create_sim(self, fixed, talents):
     def create_sim(self, uuid, combinations, target_error):
         index = str(len(self.sims) + 1)
 
@@ -58,7 +58,8 @@ class SimSet:
                 'uuid': uuid,
                 'index': index,
                 'file_path': self.write_dir + uuid + '/' + index + '/',
-                'uuid_index': self.write_dir + self.uuid_index
+                'uuid_index': self.write_dir + self.uuid_index,
+                'run_sims': self.compute
             }
         }
         apl_components = {
@@ -81,20 +82,27 @@ class SimSet:
         except StopIteration:
             print('no sim prepared, canceling')
             return
-        # self.current_sim.run_sim()
+        if self.compute:
+            self.current_sim.run_sim()
 
     def run_sims(self, uuid, combinations):
-        z = [5, 1, 0.5, 0.1]
+        # z = [5, 1, 0.5, 0.1]
+        z = [5]
         for t in z:
             self.create_sim(uuid, combinations, t)
             self.run_sim()
             combinations = [c for c in combinations if c['type'] == 'f'] + [self.current_sim.extract_profilesets()]
 
+    def update_data(self, sim_data):
+        for f_combination in sim_data:
+            for fr_combination in f_combination:
+                for u in range(len(self.data)):
+                    for v in range(len(self.data[u])):
+                        if self.data[u][v]['name'] == fr_combination['name']:
+                            self.data[u][v] = fr_combination
 
-uuid_1 = 'afc0ef8b-5a3e-4d2c-a320-4923e3eec676-stricter'
-# uuid = str(uuid.uuid4())
-files = ['fixed.simc', 'talents.simc']
-combinations_1 = [parse_combinations_from_file(filename, SimSet.fixed_match) for filename in files]
-
-test = SimSet()
-test.run_sims(uuid_1, combinations_1)
+    def collate_data(self):
+        self.data = self.sims[0].parse_json()
+        for sim_data in (sim.parse_json() for sim in self.sims[1:]):
+            self.update_data(sim_data)
+        return self.data
