@@ -1,0 +1,59 @@
+ptr=1
+threads=50
+profileset_work_threads=10
+target_error=0.1
+desired_targets=1
+html=paoaaaalower.html
+output=/dev/null
+
+monk=LOW_INTAKE
+level=70
+race=void_elf
+region=tr
+server=fyrakk
+role=tank
+professions=leatherworking=100/jewelcrafting=100
+spec=brewmaster
+
+head=,id=207245,bonus_id=6652/9599/7979/9563/9513/1494/8767/1808,enchant_id=7052,gem_id=192982,ilevel=489
+neck=,id=210214,bonus_id=8782,gem_id=192925/192925/192925,ilevel=489
+shoulder=,id=207127,ilevel=489
+back=,id=207160,ilevel=489
+chest=,id=207248,bonus_id=6652/7979/9562/9515/1491/8767,enchant_id=6625,ilevel=489
+wrist=,id=207128,bonus_id=1808,gem_id=192925,ilevel=489
+hands=,id=207246,bonus_id=6652/7979/9560/9514/1485/8767,ilevel=489
+waist=,id=193407,bonus_id=8836/8840/8902/9404/9500/8797/8960/8795/9498/9600/1808,enchant_id=6904,gem_id=192925,ilevel=486,crafted_stats=36/32
+legs=,id=207244,bonus_id=6652/7979/9562/9512/1491/8767,enchant_id=6496,ilevel=489
+feet=,id=193451,bonus_id=8836/8840/8902/8960/9405/9376/9366,enchant_id=6607,ilevel=486
+finger1=,id=158362,bonus_id=1808,enchant_id=6550,gem_id=192925,ilevel=489
+finger2=,id=207162,bonus_id=1808,enchant_id=6568,gem_id=192925,ilevel=489
+trinket1=,id=207174,bonus_id=6652/7979/9563/1494/8767,ilevel=496
+trinket2=,id=207165,bonus_id=6652/7979/9560/1485/8767,ilevel=489
+main_hand=,id=207784,bonus_id=6652/7979/9561/1488/8767/9418,enchant_id=6827,ilevel=489
+off_hand=,id=207786,bonus_id=6652/7979/9563/10247/1494/8767,enchant_id=6643,ilevel=489
+
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJJQSSrRAAAASLUSiEJUKSSaJJtEgSLk0SDC
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJhQSSrRAAAASLUSiEJUKSSaJJtEgSLk0SDC
+
+input=apl_work.simc
+
+enemy="Mythic_Fluffy_Pillow"
+source=default
+level=73
+race=humanoid
+role=tank
+position=front
+
+actions=auto_attack,damage=1400000,range=25000,attack_speed=2,aoe_tanks=1
+actions+=/melee_nuke,damage=2100000,range=24900,attack_speed=2,cooldown=30,aoe_tanks=1
+actions+=/spell_dot,damage=160000,range=664,tick_time=2,cooldown=60,aoe_tanks=1,dot_duration=30,bleed=1
+
+# profileset.l-DFB=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJJQSSpRAAAASLUSiEJUKSSaJJtEgWjIt0KhA
+# profileset.l-DFB_aoe=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAgUiWJJJQSSpRAAAASLUSiEJUKSSaJJtEANJSLtSIA
+# profileset.l-CHP=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJJQSSrRAAAASLUSiEJUKSSaJJtEgWjIt0KhA
+# profileset.l-ChP_aoe=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAgUiWJJJQSSrRAAAASLUSiEJUKSSaJJtEANJSLtSIA
+# profileset.l-bb,r2,ek,cta=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJFalkkAJJtGBAAAItQJJSkQpIJplk0SAKtIJt0KhA
+# profileset.l-bdb,r2,ek,boc=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJJQSSrRAAAASLUSiEJUKSSaJJtEAik0STIA
+# profileset.l-r2,boc,cta=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJJQSSrRAAAASLUSiEJUKSSaJJtEgSLk0SDC
+# profileset.l-r2,boc,cta,ss=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJBRSSrRAAAASLUSiEJUKSSaJJtEgSLk0SDC
+# profileset.l-r2,boc,cta,he=talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJhQSSrRAAAASLUSiEJUKSSaJJtEgSLk0SDC

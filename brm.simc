@@ -6,7 +6,7 @@
 
 $(name)=default
 # maximize_reporting=1
-threads=48
+threads=60
 profileset_work_threads=4
 single_actor_batch=1
 # iterations=10000

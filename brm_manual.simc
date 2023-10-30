@@ -13,8 +13,8 @@ target_error=0.05
 desired_targets=1
 # vary_combat_length=0.0
 # duration=3000
-# debug=1
-# log=1
+debug=1
+log=1
 ptr=1
 # max_time=300
 
@@ -36,18 +36,21 @@ role=tank
 spec=brewmaster
 position=front
 
+# set_bonus=tier30_2pc=0
+# set_bonus=tier30_4pc=0
+# set_bonus=tier31_2pc=0
+# set_bonus=tier31_4pc=0
+# set_bonus=tier31_2pc=1
+# set_bonus=tier31_4pc=1
+
 ###########
 # TALENTS #
 ###########
 
-# pta
-# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkAAAAgkCtSSSgkkWjAAAAkSCSkIhSRSSJJpkA0KEplWJE
-# woo
-talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkAAAAgkGtWSSgkkWjAAAAkWOQKSkIBFJJlkkSCQrRkWKlQA
-spec_talents=101449:0/101450:1
 
-talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkAAAAgkCtSSSgkkWjAAAAkWSIRiEpVkk0SkSCQrRkWalQA
-
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQSJaSSCkk0aEAAAg0SCJSkgikkSSSJBo1ISLtSIA
+# talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJJQSSrRAAAASLUSiEJUKSSaJJtEgWjIt0KhA
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQShWJJhQSSrRAAAASLUSiEJUKSSaJJtEgSLk0SDC
 #############################
 # BASE CHARACTER PARAMETERS #
 #############################
@@ -60,21 +63,98 @@ food=fated_fortune_cookie
 augmentation=draconic
 temporary_enchant=main_hand:buzzing_rune_3/off_hand:buzzing_rune_3
 
-head=cover_of_the_vermillion_forge,id=202506,bonus_id=6652/8783/8784/9231/9230/9229/9228/9227/9414/9415/6808/4786/8780/1504,gem_id=192991
-neck=amulet_of_tender_breath,id=206183,bonus_id=6652/8783/8784/7936/7937/6808/4786/8782/1669/9382,gem_id=192932/192932/192932
-shoulders=spines_of_the_vermillion_forge,id=202504,bonus_id=6652/8783/8784/9231/9230/9229/9228/9227/9414/9415/4800/4786/1507
-back=voice_of_the_silent_star,id=204465,bonus_id=6652/8783/8784/9414/9415/4800/4786/1498,enchant_id=6598
-chest=lifebound_chestpiece,id=193399,bonus_id=8840/8836/8902/1537/8797/8960,enchant_id=6625,crafted_stats=32/40
-wrists=lifebound_bindings,id=193419,bonus_id=8840/8836/8902/1537,gem_id=192932,enchant_id=6580,crafted_stats=32/40
-hands=fists_of_the_vermillion_forge,id=202507,bonus_id=6652/8783/8784/9231/9230/9229/9228/9227/9414/9415/4800/4786/1501
-waist=blackbelt_of_the_vermillion_forge,id=202503,bonus_id=4800/4786/1507/1808,gem_id=192932
-legs=pantaloons_of_the_vermillion_forge,id=202505,bonus_id=6652/8783/8784/9231/9230/9229/9228/9227/9414/9415/6808/4786/1504,enchant_id=6490
-feet=slimy_expulsion_boots,id=193451,bonus_id=8960/8840/8836/8902/1537,enchant_id=6613
-finger1=tormentors_siphoning_signet,id=204466,bonus_id=6652/8783/8784/9414/9415/4800/4786/8780/1501/9382,gem_id=192932,enchant_id=6568
-finger2=seal_of_diurnas_chosen,id=195480,bonus_id=6652/8783/8784/7936/7937/4800/4786/8780/1498,gem_id=192932,enchant_id=6568
-trinket1=beacon_to_the_beyond,id=203963,bonus_id=6652/8783/8784/9414/9415/4800/4786/1498
-trinket2=dragonfire_bomb_dispenser,id=202610,bonus_id=6652/8783/8784/9414/9415/4800/4786/1498
-main_hand=djaruun_pillar_of_the_elder_flame,id=202569,bonus_id=8159/6652/8783/8784/9414/9415/4800/4786/1498,enchant_id=6827
+head=,id=207245,bonus_id=6652/9599/7979/9563/9513/1494/8767/1808,enchant_id=7052,gem_id=192982,ilevel=489
+neck=,id=210214,bonus_id=8782,gem_id=192925/192925/192925,ilevel=489
+shoulder=,id=207127,ilevel=489
+back=,id=207160,ilevel=489
+chest=,id=207248,bonus_id=6652/7979/9562/9515/1491/8767,enchant_id=6625,ilevel=489
+wrist=,id=207128,bonus_id=1808,gem_id=192925,ilevel=489
+hands=,id=207246,bonus_id=6652/7979/9560/9514/1485/8767,ilevel=489
+waist=,id=193407,bonus_id=8836/8840/8902/9404/9500/8797/8960/8795/9498/9600/1808,enchant_id=6904,gem_id=192925,ilevel=486,crafted_stats=36/32
+legs=,id=207244,bonus_id=6652/7979/9562/9512/1491/8767,enchant_id=6496,ilevel=489
+feet=,id=193451,bonus_id=8836/8840/8902/8960/9405/9376/9366,enchant_id=6607,ilevel=486
+finger1=,id=158362,bonus_id=1808,enchant_id=6550,gem_id=192925,ilevel=489
+finger2=,id=207162,bonus_id=1808,enchant_id=6568,gem_id=192925,ilevel=489
+trinket1=,id=207174,bonus_id=6652/7979/9563/1494/8767,ilevel=496
+trinket2=,id=207165,bonus_id=6652/7979/9560/1485/8767,ilevel=489
+main_hand=,id=207784,bonus_id=6652/7979/9561/1488/8767/9418,enchant_id=6827,ilevel=489
+off_hand=,id=207786,bonus_id=6652/7979/9563/10247/1494/8767,enchant_id=6643,ilevel=489
+
+# wrist=,id=193419,bonus_id=9498/9500/9405/870/1537/8797/8960,gem_id=192919,ilevel=483
+# feet=slimy_expulsion_boots,id=193451,bonus_id=8960/8840/8836/8902/1537,enchant_id=6613,ilevel=483
+# Cataclysmic Signet Brand 489 - Amirdrassil, the Dream's Hope - Smolderon
+# trinket1=,id=207166,bonus_id=6652/8783/8784/9599/9600/10244/10245/4800/4786/1520/9576
+# Bandolier of Twisted Blades 489 - Amirdrassil, the Dream's Hope - Igira the Cruel
+# trinket1=,id=207165,bonus_id=6652/8783/8784/9599/9600/10244/10245/4800/4786/1520/9576
+# Mystic Heron's Hatsuburi 489 - Amirdrassil, the Dream's Hope - Gnarlroot
+# head=,id=207245,enchant_id=7052,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/8780/1520/9576,gem_id=192925
+# Mystic Heron's Hopeful Effigy 489 - Amirdrassil, the Dream's Hope - Council of Dreams
+# shoulder=,id=207243,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576
+# Mystic Heron's Burdens 489 - Amirdrassil, the Dream's Hope - Larodar, Keeper of the Flame
+# chest=,id=207248,enchant_id=6625,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576
+# Mystic Heron's Belt 489 - Amirdrassil, the Dream's Hope - Igira the Cruel
+# waist=,id=207242,enchant_id=6904,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/8780/1520/9576,gem_id=192925
+# Mystic Heron's Waders 489 - Amirdrassil, the Dream's Hope - Fyrakk the Blazing
+# legs=,id=207244,enchant_id=6496,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576
+# Mystic Heron's Tabi 489 - Amirdrassil, the Dream's Hope - Gnarlroot
+# feet=,id=207247,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576
+# Mystic Heron's Fisticuffs 489 - Amirdrassil, the Dream's Hope - Volcoross
+# wrist=,id=207241,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/8780/1520/9576,gem_id=192925
+# Mystic Heron's Glovebills 489 - Amirdrassil, the Dream's Hope - Volcoross
+# hands=,id=207246,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576
+# Mystic Heron's Feathered Mantle 489 - Amirdrassil, the Dream's Hope - Gnarlroot
+# back=,id=207240,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576
+# Silent Tormentor's Hood
+# head=,id=207133,bonus_id=3524,ilevel=489
+# Bloody Dragonhide Belt
+# waist=,id=207131,bonus_id=3524,ilevel=489
+# Eternal Sentinel's Cord
+# waist=,id=207135,bonus_id=3524,ilevel=489
+# Amulet of Eonar's Chosen
+# neck=,id=208445,bonus_id=3524,ilevel=489
+# Eye of the Rising Flame
+# neck=,id=207163,bonus_id=3524,ilevel=489
+# Ouroboreal Necklet
+# neck=,id=210214,bonus_id=3524,ilevel=489
+# Strigine Epaulets
+# shoulder=,id=207127,bonus_id=3524,ilevel=489
+# Robes of the Ashen Grove
+# chest=,id=207129,bonus_id=3524,ilevel=489
+# Frenzied Incarnate Legwraps
+# legs=,id=207132,bonus_id=3524,ilevel=489
+# Tasseted Emberwalkers
+# feet=,id=207134,bonus_id=3524,ilevel=489
+# Twisted Blossom Stompers
+# feet=,id=207126,bonus_id=3524,ilevel=489
+# Primordial Serpent's Bindings
+# wrist=,id=207128,bonus_id=3524,ilevel=489
+# Verdant Sanctuary Bands
+# wrist=,id=210206,bonus_id=3524,ilevel=489
+# Rashon, the Immortal Blaze
+# main_hand=,id=207793,bonus_id=3524,ilevel=489
+# Scythe of the Fallen Keeper
+# main_hand=,id=207792,bonus_id=3524,ilevel=489
+# Igira's Flaying Hatchet
+# main_hand=,id=207787,bonus_id=3524,ilevel=489
+# Thorncaller Claw
+# main_hand=,id=207784,bonus_id=3524,ilevel=489
+# Gholak, the Final Conflagration
+# main_hand=,id=207786,bonus_id=3524,ilevel=489
+# Vakash, the Shadowed Inferno
+# main_hand=,id=207788,bonus_id=3524,ilevel=489
+# Inflammable Drapeleaf
+# back=,id=207160,bonus_id=3524,ilevel=489
+# Mantle of Blazing Sacrifice
+# back=,id=207161,bonus_id=3524,ilevel=489
+# Flamewaker's Grips
+# hands=,id=207130,bonus_id=3524,ilevel=489
+# Band of Burning Thorns
+# finger1=,id=207159,bonus_id=3524,ilevel=489
+# Signet of the Last Elder
+# finger1=,id=207162,bonus_id=3524,ilevel=489
+# finger1=ringbound_hourglass,id=193000,bonus_id=9498/9500/9405/8780,gem_id=192922,enchant=devotion_of_critical_strike_3,crafted_stats=32/40
+# finger2=signet_of_titanic_insight,id=192999,bonus_id=9498/9500/9405/8780,gem_id=192922,enchant=devotion_of_critical_strike_3,crafted_stats=32/40
+
 
 # actions.precombat=flask
 # actions.precombat+=/food
@@ -83,6 +163,12 @@ main_hand=djaruun_pillar_of_the_elder_flame,id=202569,bonus_id=8159/6652/8783/87
 # actions.precombat+=/potion
 # actions.precombat+=/chi_burst,if=talent.chi_burst.enabled
 # actions.precombat+=/chi_wave,if=talent.chi_wave.enabled
+
+# actions=auto_attack
+# actions+=/blackout_kick
+# actions+=/keg_smash
+# actions+=/breath_of_fire
+# actions+=/celestial_brew
 
 # actions=auto_attack
 # actions+=/roll,if=movement.distance>5
@@ -149,139 +235,7 @@ main_hand=djaruun_pillar_of_the_elder_flame,id=202569,bonus_id=8159/6652/8783/87
 
 # # m1\n20|profileset.%02d+=desired_targets=%d
 
-# copy=a,baseline
-actions.precombat=flask
-actions.precombat+=/food
-actions.precombat+=/augmentation
-actions.precombat+=/snapshot_stats
-actions.precombat+=/potion
-actions.precombat+=/chi_burst,if=talent.chi_burst.enabled
-actions.precombat+=/chi_wave,if=talent.chi_wave.enabled
-actions.precombat+=/summon_white_tiger_statue
-
-actions=auto_attack
-actions+=/potion
-actions+=/call_action_list,name=item_actions
-actions+=/call_action_list,name=rotation_pta,if=talent.press_the_advantage.enabled
-actions+=/call_action_list,name=rotation_boc,if=!talent.press_the_advantage.enabled
-
-actions.item_actions=use_item,name=beacon_to_the_beyond
-actions.item_actions+=/use_item,name=dragonfire_bomb_dispenser
-actions.item_actions+=/use_item,name=djaruun_pillar_of_the_elder_flame
-
-actions.rotation_boc=
-actions.rotation_boc+=/blackout_kick
-actions.rotation_boc+=/invoke_niuzao_the_black_ox,if=debuff.weapons_of_order_debuff.stack>3
-actions.rotation_boc+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
-actions.rotation_boc+=/weapons_of_order,if=(talent.weapons_of_order.enabled)
-actions.rotation_boc+=/keg_smash,if=time-action.weapons_of_order.last_used<2&talent.weapons_of_order.enabled
-actions.rotation_boc+=/purifying_brew,if=(!buff.blackout_combo.up)
-actions.rotation_boc+=/rising_sun_kick
-actions.rotation_boc+=/keg_smash,if=buff.weapons_of_order.up&debuff.weapons_of_order_debuff.remains<=gcd*2
-actions.rotation_boc+=/black_ox_brew,if=energy+energy.regen<=40
-actions.rotation_boc+=/tiger_palm,if=buff.blackout_combo.up&active_enemies=1
-actions.rotation_boc+=/breath_of_fire,if=buff.charred_passions.remains<cooldown.blackout_kick.remains
-actions.rotation_boc+=/keg_smash,if=buff.weapons_of_order.up&debuff.weapons_of_order_debuff.stack<=3
-actions.rotation_boc+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3
-actions.rotation_boc+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled
-actions.rotation_boc+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)
-actions.rotation_boc+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)
-actions.rotation_boc+=/exploding_keg,if=(buff.bonedust_brew.up)
-actions.rotation_boc+=/exploding_keg,if=(!talent.bonedust_brew.enabled)
-actions.rotation_boc+=/keg_smash
-actions.rotation_boc+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
-actions.rotation_boc+=/breath_of_fire
-actions.rotation_boc+=/tiger_palm,if=active_enemies=1&!talent.blackout_combo.enabled
-actions.rotation_boc+=/spinning_crane_kick,if=active_enemies>1
-actions.rotation_boc+=/expel_harm
-actions.rotation_boc+=/chi_wave,if=talent.chi_wave.enabled
-actions.rotation_boc+=/chi_burst,if=talent.chi_burst.enabled
-
-actions.rotation_pta=
-actions.rotation_pta+=/invoke_niuzao_the_black_ox,if=debuff.weapons_of_order_debuff.stack>3
-actions.rotation_pta+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
-actions.rotation_pta+=/weapons_of_order,if=(talent.weapons_of_order.enabled)
-actions.rotation_pta+=/rising_sun_kick,if=(buff.press_the_advantage.stack<6|buff.press_the_advantage.stack>9)
-actions.rotation_pta+=/blackout_kick
-actions.rotation_pta+=/black_ox_brew,if=energy<=50
-actions.rotation_pta+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3
-actions.rotation_pta+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled
-actions.rotation_pta+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)
-actions.rotation_pta+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)
-actions.rotation_pta+=/exploding_keg,if=(buff.bonedust_brew.up)
-actions.rotation_pta+=/exploding_keg,if=(!talent.bonedust_brew.enabled)
-actions.rotation_pta+=/breath_of_fire,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
-actions.rotation_pta+=/keg_smash,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
-actions.rotation_pta+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
-actions.rotation_pta+=/expel_harm
-actions.rotation_pta+=/chi_wave,if=talent.chi_wave.enabled
-actions.rotation_pta+=/chi_burst,if=talent.chi_burst.enabled
-
-copy=b,baseline
-actions.precombat=flask
-actions.precombat+=/food
-actions.precombat+=/augmentation
-actions.precombat+=/snapshot_stats
-actions.precombat+=/potion
-actions.precombat+=/chi_burst,if=talent.chi_burst.enabled
-actions.precombat+=/chi_wave,if=talent.chi_wave.enabled
-actions.precombat+=/summon_white_tiger_statue
-
-actions=auto_attack
-actions+=/potion
-actions+=/call_action_list,name=item_actions
-actions+=/call_action_list,name=rotation_pta,if=talent.press_the_advantage.enabled
-actions+=/call_action_list,name=rotation_boc,if=!talent.press_the_advantage.enabled
-
-actions.item_actions=use_item,name=beacon_to_the_beyond
-actions.item_actions+=/use_item,name=dragonfire_bomb_dispenser
-actions.item_actions+=/use_item,name=djaruun_pillar_of_the_elder_flame
-
-actions.rotation_boc=
-actions.rotation_boc+=/blackout_kick
-actions.rotation_boc+=/invoke_niuzao_the_black_ox,if=debuff.weapons_of_order_debuff.stack>3
-actions.rotation_boc+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
-actions.rotation_boc+=/weapons_of_order,if=(talent.weapons_of_order.enabled)
-actions.rotation_boc+=/keg_smash,if=time-action.weapons_of_order.last_used<2&talent.weapons_of_order.enabled
-actions.rotation_boc+=/purifying_brew,if=(!buff.blackout_combo.up)
-actions.rotation_boc+=/rising_sun_kick
-actions.rotation_boc+=/keg_smash,if=buff.weapons_of_order.up&debuff.weapons_of_order_debuff.remains<=gcd*2
-actions.rotation_boc+=/black_ox_brew,if=energy+energy.regen<=40
-actions.rotation_boc+=/tiger_palm,if=buff.blackout_combo.up&active_enemies=1
-actions.rotation_boc+=/breath_of_fire,if=buff.charred_passions.remains<cooldown.blackout_kick.remains
-actions.rotation_boc+=/keg_smash,if=buff.weapons_of_order.up&debuff.weapons_of_order_debuff.stack<=3
-actions.rotation_boc+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3
-actions.rotation_boc+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled
-actions.rotation_boc+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)
-actions.rotation_boc+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)
-actions.rotation_boc+=/exploding_keg,if=(buff.bonedust_brew.up)
-actions.rotation_boc+=/exploding_keg,if=(!talent.bonedust_brew.enabled)
-actions.rotation_boc+=/keg_smash
-actions.rotation_boc+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
-actions.rotation_boc+=/breath_of_fire
-actions.rotation_boc+=/tiger_palm,if=active_enemies=1
-actions.rotation_boc+=/spinning_crane_kick,if=active_enemies>1
-actions.rotation_boc+=/expel_harm
-actions.rotation_boc+=/chi_wave,if=talent.chi_wave.enabled
-actions.rotation_boc+=/chi_burst,if=talent.chi_burst.enabled
-
-actions.rotation_pta=rising_sun_kick,if=(buff.press_the_advantage.stack<6|buff.press_the_advantage.stack>9)
-actions.rotation_pta+=/blackout_kick
-actions.rotation_pta+=/black_ox_brew,if=energy<=50
-actions.rotation_pta+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3
-actions.rotation_pta+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled
-actions.rotation_pta+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)
-actions.rotation_pta+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)
-actions.rotation_pta+=/exploding_keg,if=(buff.bonedust_brew.up)
-actions.rotation_pta+=/exploding_keg,if=(!talent.bonedust_brew.enabled)
-actions.rotation_pta+=/breath_of_fire,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
-actions.rotation_pta+=/keg_smash,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
-actions.rotation_pta+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
-actions.rotation_pta+=/expel_harm
-actions.rotation_pta+=/chi_wave,if=talent.chi_wave.enabled
-actions.rotation_pta+=/chi_burst,if=talent.chi_burst.enabled
-
-# copy=emall,baseline
+# # copy=a,baseline
 # actions.precombat=flask
 # actions.precombat+=/food
 # actions.precombat+=/augmentation
@@ -293,29 +247,178 @@ actions.rotation_pta+=/chi_burst,if=talent.chi_burst.enabled
 
 # actions=auto_attack
 # actions+=/potion
-# actions+=/purifying_brew,if=buff.blackout_combo.down
 # actions+=/call_action_list,name=item_actions
-# actions+=/breath_of_fire,if=buff.charred_passions.down&cooldown.blackout_kick.remains<2&buff.blackout_combo.down
-# actions+=/blackout_kick
-# actions+=/call_action_list,name=set_chp,if=buff.charred_passions.remains<cooldown.blackout_kick.remains
-# actions+=/call_action_list,name=set_rjw
+# actions+=/call_action_list,name=rotation_pta,if=talent.press_the_advantage.enabled
+# actions+=/call_action_list,name=rotation_boc,if=!talent.press_the_advantage.enabled
 
 # actions.item_actions=use_item,name=beacon_to_the_beyond
-# actions.item_actions+=/use_item,name=djaruun_pillar_of_the_elder_flame
 # actions.item_actions+=/use_item,name=dragonfire_bomb_dispenser
+# actions.item_actions+=/use_item,name=djaruun_pillar_of_the_elder_flame
 
-# actions.set_chp=tiger_palm,if=buff.blackout_combo.up
-# actions.set_chp+=/breath_of_fire
-# actions.set_chp+=/black_ox_brew,if=energy<40
-# actions.set_chp+=/keg_smash
+# actions.rotation_boc=
+# actions.rotation_boc+=/blackout_kick
+# actions.rotation_boc+=/invoke_niuzao_the_black_ox,if=debuff.weapons_of_order_debuff.stack>3
+# actions.rotation_boc+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
+# actions.rotation_boc+=/weapons_of_order,if=(talent.weapons_of_order.enabled)
+# actions.rotation_boc+=/keg_smash,if=time-action.weapons_of_order.last_used<2&talent.weapons_of_order.enabled
+# actions.rotation_boc+=/purifying_brew,if=(!buff.blackout_combo.up)
+# actions.rotation_boc+=/rising_sun_kick
+# actions.rotation_boc+=/keg_smash,if=buff.weapons_of_order.up&debuff.weapons_of_order_debuff.remains<=gcd*2
+# actions.rotation_boc+=/black_ox_brew,if=energy+energy.regen<=40
+# actions.rotation_boc+=/tiger_palm,if=buff.blackout_combo.up&active_enemies=1
+# actions.rotation_boc+=/breath_of_fire,if=buff.charred_passions.remains<cooldown.blackout_kick.remains
+# actions.rotation_boc+=/keg_smash,if=buff.weapons_of_order.up&debuff.weapons_of_order_debuff.stack<=3
+# actions.rotation_boc+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3
+# actions.rotation_boc+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled
+# actions.rotation_boc+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)
+# actions.rotation_boc+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)
+# actions.rotation_boc+=/exploding_keg,if=(buff.bonedust_brew.up)
+# actions.rotation_boc+=/exploding_keg,if=(!talent.bonedust_brew.enabled)
+# actions.rotation_boc+=/keg_smash
+# actions.rotation_boc+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
+# actions.rotation_boc+=/breath_of_fire
+# actions.rotation_boc+=/tiger_palm,if=active_enemies=1&!talent.blackout_combo.enabled
+# actions.rotation_boc+=/spinning_crane_kick,if=active_enemies>1
+# actions.rotation_boc+=/expel_harm
+# actions.rotation_boc+=/chi_wave,if=talent.chi_wave.enabled
+# actions.rotation_boc+=/chi_burst,if=talent.chi_burst.enabled
 
-# actions.set_rjw=tiger_palm,if=buff.blackout_combo.up&cooldown.blackout_kick.remains<2
-# actions.set_rjw+=/bonedust_brew
-# actions.set_rjw+=/exploding_keg
-# actions.set_rjw+=/weapons_of_order
-# actions.set_rjw+=/summon_white_tiger_statue
-# actions.set_rjw+=/invoke_niuzao_the_black_ox
-# actions.set_rjw+=/rising_sun_kick
-# actions.set_rjw+=/rushing_jade_wind
-# actions.set_rjw+=/chi_wave
-# actions.set_rjw+=/chi_burst
+# actions.rotation_pta=
+# actions.rotation_pta+=/invoke_niuzao_the_black_ox,if=debuff.weapons_of_order_debuff.stack>3
+# actions.rotation_pta+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
+# actions.rotation_pta+=/rising_sun_kick,if=(buff.press_the_advantage.stack<6|buff.press_the_advantage.stack>9)&active_enemies<=4
+# actions.rotation_pta+=/keg_smash,if=(buff.press_the_advantage.stack<8|buff.press_the_advantage.stack>9)&active_enemies>4
+# actions.rotation_pta+=/blackout_kick
+# actions.rotation_pta+=/black_ox_brew,if=energy+energy.regen<=40
+# actions.rotation_pta+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3
+# actions.rotation_pta+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled
+# actions.rotation_pta+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)
+# actions.rotation_pta+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)
+# actions.rotation_pta+=/exploding_keg,if=(buff.bonedust_brew.up)
+# actions.rotation_pta+=/exploding_keg,if=(!talent.bonedust_brew.enabled)
+# actions.rotation_pta+=/breath_of_fire,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
+# actions.rotation_pta+=/keg_smash,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
+# actions.rotation_pta+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
+# actions.rotation_pta+=/spinning_crane_kick,if=active_enemies>1
+# actions.rotation_pta+=/expel_harm
+# actions.rotation_pta+=/chi_wave,if=talent.chi_wave.enabled
+# actions.rotation_pta+=/chi_burst,if=talent.chi_burst.enabled
+
+# copy=b,baseline
+# actions.precombat=flask
+# actions.precombat+=/food
+# actions.precombat+=/augmentation
+# actions.precombat+=/snapshot_stats
+# actions.precombat+=/potion
+# actions.precombat+=/chi_burst,if=talent.chi_burst.enabled
+# actions.precombat+=/chi_wave,if=talent.chi_wave.enabled
+# actions.precombat+=/summon_white_tiger_statue
+
+# actions=auto_attack
+# actions+=/potion
+# actions+=/call_action_list,name=item_actions
+# actions+=/call_action_list,name=rotation_pta,if=talent.press_the_advantage.enabled
+# actions+=/call_action_list,name=rotation_boc,if=!talent.press_the_advantage.enabled
+
+# actions.item_actions=use_item,name=beacon_to_the_beyond
+# actions.item_actions+=/use_item,name=dragonfire_bomb_dispenser
+# actions.item_actions+=/use_item,name=djaruun_pillar_of_the_elder_flame
+
+# actions.rotation_boc=
+# actions.rotation_boc+=/blackout_kick
+# actions.rotation_boc+=/invoke_niuzao_the_black_ox,if=debuff.weapons_of_order_debuff.stack>3
+# actions.rotation_boc+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
+# actions.rotation_boc+=/weapons_of_order,if=(talent.weapons_of_order.enabled)
+# actions.rotation_boc+=/keg_smash,if=time-action.weapons_of_order.last_used<2&talent.weapons_of_order.enabled
+# actions.rotation_boc+=/purifying_brew,if=(!buff.blackout_combo.up)
+# actions.rotation_boc+=/rising_sun_kick
+# actions.rotation_boc+=/keg_smash,if=buff.weapons_of_order.up&debuff.weapons_of_order_debuff.remains<=gcd*2
+# actions.rotation_boc+=/black_ox_brew,if=energy+energy.regen<=40
+# actions.rotation_boc+=/tiger_palm,if=buff.blackout_combo.up&active_enemies=1
+# actions.rotation_boc+=/breath_of_fire,if=buff.charred_passions.remains<cooldown.blackout_kick.remains
+# actions.rotation_boc+=/keg_smash,if=buff.weapons_of_order.up&debuff.weapons_of_order_debuff.stack<=3
+# actions.rotation_boc+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3
+# actions.rotation_boc+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled
+# actions.rotation_boc+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)
+# actions.rotation_boc+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)
+# actions.rotation_boc+=/exploding_keg,if=(buff.bonedust_brew.up)
+# actions.rotation_boc+=/exploding_keg,if=(!talent.bonedust_brew.enabled)
+# actions.rotation_boc+=/keg_smash
+# actions.rotation_boc+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
+# actions.rotation_boc+=/breath_of_fire
+# actions.rotation_boc+=/tiger_palm,if=active_enemies=1&!talent.blackout_combo.enabled
+# actions.rotation_boc+=/spinning_crane_kick,if=active_enemies>1
+# actions.rotation_boc+=/expel_harm
+# actions.rotation_boc+=/chi_wave,if=talent.chi_wave.enabled
+# actions.rotation_boc+=/chi_burst,if=talent.chi_burst.enabled
+
+# actions.rotation_pta=
+# actions.rotation_pta+=/invoke_niuzao_the_black_ox,if=debuff.weapons_of_order_debuff.stack>3
+# actions.rotation_pta+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
+# actions.rotation_pta+=/rising_sun_kick,if=(buff.press_the_advantage.stack<6|buff.press_the_advantage.stack>9)&active_enemies<=4
+# actions.rotation_pta+=/keg_smash,if=(buff.press_the_advantage.stack<8|buff.press_the_advantage.stack>9)&active_enemies>4
+# actions.rotation_pta+=/blackout_kick
+# actions.rotation_pta+=/purifying_brew,if=(!buff.blackout_combo.up)
+# actions.rotation_pta+=/black_ox_brew,if=energy+energy.regen<=40
+# actions.rotation_pta+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3
+# actions.rotation_pta+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled
+# actions.rotation_pta+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)
+# actions.rotation_pta+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)
+# actions.rotation_pta+=/exploding_keg,if=(buff.bonedust_brew.up)
+# actions.rotation_pta+=/exploding_keg,if=(!talent.bonedust_brew.enabled)
+# actions.rotation_pta+=/breath_of_fire,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
+# actions.rotation_pta+=/keg_smash,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
+# actions.rotation_pta+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
+# actions.rotation_pta+=/spinning_crane_kick,if=active_enemies>1
+# actions.rotation_pta+=/expel_harm
+# actions.rotation_pta+=/chi_wave,if=talent.chi_wave.enabled
+# actions.rotation_pta+=/chi_burst,if=talent.chi_burst.enabled
+
+# # m1\n20|profileset.%02d-y=desired_targets=%d\nprofileset.%02d-y+=actions.rotation_pta+=/spinning_crane_kick\nprofileset.%02d-n=desired_targets=%d\n
+
+# # actions.rotation_pta=
+# # actions.rotation_pta+=/invoke_niuzao_the_black_ox,if=debuff.weapons_of_order_debuff.stack>3
+# # actions.rotation_pta+=/invoke_niuzao_the_black_ox,if=!talent.weapons_of_order.enabled
+
+# # m1\n20|profileset.%02d-r=desired_targets=%d\nprofileset.%02d-r+=actions.rotation_pta+=/rising_sun_kick,if=(buff.press_the_advantage.stack<6|buff.press_the_advantage.stack>9)\nprofileset.%02d-r+=actions.rotation_pta+=/blackout_kick\nprofileset.%02d-r+=actions.rotation_pta+=/black_ox_brew,if=energy+energy.regen<=40\nprofileset.%02d-r+=actions.rotation_pta+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3\nprofileset.%02d-r+=actions.rotation_pta+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled\nprofileset.%02d-r+=actions.rotation_pta+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)\nprofileset.%02d-r+=actions.rotation_pta+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)\nprofileset.%02d-r+=actions.rotation_pta+=/exploding_keg,if=(buff.bonedust_brew.up)\nprofileset.%02d-r+=actions.rotation_pta+=/exploding_keg,if=(!talent.bonedust_brew.enabled)\nprofileset.%02d-r+=actions.rotation_pta+=/breath_of_fire,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)\nprofileset.%02d-r+=actions.rotation_pta+=/keg_smash,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)\nprofileset.%02d-r+=actions.rotation_pta+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled\nprofileset.%02d-r+=actions.rotation_pta+=/spinning_crane_kick,if=active_enemies>1\nprofileset.%02d-r+=actions.rotation_pta+=/expel_harm\nprofileset.%02d-r+=actions.rotation_pta+=/chi_wave,if=talent.chi_wave.enabled\nprofileset.%02d-r+=actions.rotation_pta+=/chi_burst,if=talent.chi_burst.enabled\nprofileset.%02d-k=desired_targets=%d\nprofileset.%02d-k+=actions.rotation_pta+=/keg_smash,if=(buff.press_the_advantage.stack<6|buff.press_the_advantage.stack>9)\nprofileset.%02d-k+=actions.rotation_pta+=/blackout_kick\nprofileset.%02d-k+=actions.rotation_pta+=/black_ox_brew,if=energy+energy.regen<=40\nprofileset.%02d-k+=actions.rotation_pta+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3\nprofileset.%02d-k+=actions.rotation_pta+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled\nprofileset.%02d-k+=actions.rotation_pta+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)\nprofileset.%02d-k+=actions.rotation_pta+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)\nprofileset.%02d-k+=actions.rotation_pta+=/exploding_keg,if=(buff.bonedust_brew.up)\nprofileset.%02d-k+=actions.rotation_pta+=/exploding_keg,if=(!talent.bonedust_brew.enabled)\nprofileset.%02d-k+=actions.rotation_pta+=/breath_of_fire,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)\nprofileset.%02d-k+=actions.rotation_pta+=/keg_smash,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)\nprofileset.%02d-k+=actions.rotation_pta+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled\nprofileset.%02d-k+=actions.rotation_pta+=/spinning_crane_kick,if=active_enemies>1\nprofileset.%02d-k+=actions.rotation_pta+=/expel_harm\nprofileset.%02d-k+=actions.rotation_pta+=/chi_wave,if=talent.chi_wave.enabled\nprofileset.%02d-k+=actions.rotation_pta+=/chi_burst,if=talent.chi_burst.enabled
+
+
+# # actions.rotation_pta+=/rising_sun_kick,if=(buff.press_the_advantage.stack<6|buff.press_the_advantage.stack>9)
+# # actions.rotation_pta+=/blackout_kick
+# # actions.rotation_pta+=/black_ox_brew,if=energy+energy.regen<=40
+# # actions.rotation_pta+=/summon_white_tiger_statue,if=debuff.weapons_of_order_debuff.stack>3
+# # actions.rotation_pta+=/summon_white_tiger_statue,if=!talent.weapons_of_order.enabled
+# # actions.rotation_pta+=/bonedust_brew,if=(time<10&debuff.weapons_of_order_debuff.stack>3)|(time>10&talent.weapons_of_order.enabled)
+# # actions.rotation_pta+=/bonedust_brew,if=(!talent.weapons_of_order.enabled)
+# # actions.rotation_pta+=/exploding_keg,if=(buff.bonedust_brew.up)
+# # actions.rotation_pta+=/exploding_keg,if=(!talent.bonedust_brew.enabled)
+# # actions.rotation_pta+=/breath_of_fire,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
+# # actions.rotation_pta+=/keg_smash,if=!(buff.press_the_advantage.stack>6&buff.blackout_combo.up)
+# # actions.rotation_pta+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
+# # actions.rotation_pta+=/spinning_crane_kick,if=active_enemies>1
+# # actions.rotation_pta+=/expel_harm
+# # actions.rotation_pta+=/chi_wave,if=talent.chi_wave.enabled
+# # actions.rotation_pta+=/chi_burst,if=talent.chi_burst.enabled
+
+# copy=t31,baseline
+# set_bonus=tier30_2pc=0
+# set_bonus=tier30_4pc=0
+# set_bonus=tier31_2pc=1
+# set_bonus=tier31_4pc=1
+
+# copy=t30,baseline
+# set_bonus=tier30_2pc=1
+# set_bonus=tier30_4pc=1
+# set_bonus=tier31_2pc=0
+# set_bonus=tier31_4pc=0
+
+enemy="Mythic_Fluffy_Pillow"
+source=default
+level=73
+race=humanoid
+role=tank
+position=front
+
+actions=auto_attack,damage=2400000,range=25000,attack_speed=2,aoe_tanks=1
+actions+=/melee_nuke,damage=4100000,range=24900,attack_speed=2,cooldown=30,aoe_tanks=1
+actions+=/spell_dot,damage=160000,range=664,tick_time=2,cooldown=60,aoe_tanks=1,dot_duration=30,bleed=1

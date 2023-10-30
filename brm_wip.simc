@@ -1,0 +1,85 @@
+#!./../simc/build/simc
+
+##################
+# SIM PARAMETERS #
+##################
+
+$(name)=new_module
+# maximize_reporting=1
+threads=48
+profileset_work_threads=8
+iterations=100000
+target_error=0.1
+desired_targets=5
+# vary_combat_length=0.0
+# duration=3000
+# debug=1
+# log=1
+ptr=1
+# max_time=300
+
+# dps_plot_stat=crit,haste,mastery,vers
+# # dps_plot_stat=haste
+# dps_plot_points=29
+# dps_plot_step=300
+# dps_plot_iterations=10000
+
+# override.windfury_totem=0
+
+html=$(name).html
+output=$(name).txt
+# output=/dev/null
+
+monk="baseline"
+level=70
+role=tank
+spec=brewmaster
+position=front
+
+set_bonus=tier30_2pc=0
+set_bonus=tier30_4pc=0
+# set_bonus=tier31_2pc=0
+# set_bonus=tier31_4pc=0
+# set_bonus=tier31_2pc=1
+# set_bonus=tier31_4pc=1
+
+###########
+# TALENTS #
+###########
+
+talents=BwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAQSJaSSCkk0aEAAAg0SCJSkgikkSSSJBo1ISLtSIA
+
+#############################
+# BASE CHARACTER PARAMETERS #
+#############################
+
+race=void_elf
+
+potion=elemental_potion_of_ultimate_power_3
+flask=iced_phial_of_corrupting_rage_3
+food=fated_fortune_cookie
+augmentation=draconic
+temporary_enchant=main_hand:buzzing_rune_3/off_hand:buzzing_rune_3
+
+head=,id=207245,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/8780/1520/9576,enchant_id=7052,gem_id=192925
+neck=,id=210214,bonus_id=3524/8782,gem_id=192982/192925/192925,ilevel=489
+shoulder=,id=207243,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576
+back=,id=207160,bonus_id=3524,ilevel=489
+chest=,id=207248,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576,enchant_id=6625
+wrist=,id=207241,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/8780/1520/9576,gem_id=192925
+hands=,id=207246,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576
+waist=,id=207242,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/8780/1520/9576,enchant_id=6904,gem_id=192925
+legs=,id=207244,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576,enchant_id=6496
+feet=,id=207247,bonus_id=6652/8783/8784/9515/9514/9513/9512/9511/9599/9600/10244/10245/1472/4800/4786/1520/9576
+finger1=,id=193000,bonus_id=9498/9500/9405/8780,enchant_id=6550,enchant=devotion_of_critical_strike_3,gem_id=192922,crafted_stats=32/40
+finger2=,id=207162,bonus_id=3524/1808,enchant_id=6550,gem_id=192925,ilevel=489
+trinket1=,id=207166,bonus_id=6652/8783/8784/9599/9600/10244/10245/4800/4786/1520/9576
+trinket2=,id=207165,bonus_id=6652/8783/8784/9599/9600/10244/10245/4800/4786/1520/9576
+main_hand=,id=207784,bonus_id=3524,enchant_id=6827,ilevel=489
+off_hand=,id=207786,bonus_id=3524,enchant_id=6827,ilevel=489
+
+
+
+actions=auto_attack
+actions+=/blackout_kick
+actions+=/weapons_of_order

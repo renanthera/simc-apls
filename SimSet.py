@@ -87,7 +87,7 @@ class SimSet:
 
     def run_sims(self, uuid, combinations):
         # z = [5, 1, 0.5, 0.1]
-        z = [5]
+        z = [0.2]
         for t in z:
             self.create_sim(uuid, combinations, t)
             self.run_sim()
